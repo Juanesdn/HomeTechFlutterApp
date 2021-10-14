@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hometech_app/constants.dart';
 import 'package:hometech_app/screens/welcome/welcome_screen.dart';
 
 void main() {
@@ -12,9 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Hometech',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: const TextTheme(bodyText1: TextStyle(color: textColor)),
       ),
       home: const WelcomeScreen(),
     );

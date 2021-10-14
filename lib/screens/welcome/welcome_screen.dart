@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hometech_app/screens/welcome/widgets/body.dart';
+import 'package:hometech_app/size_config.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    SizeConfig().init(context);
+    return const Scaffold(
+      body: Body(key: Key("BodyWelcome")),
     );
   }
 }
