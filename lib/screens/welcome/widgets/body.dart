@@ -5,6 +5,8 @@ import '../../../size_config.dart';
 import '../widgets/splash_content.dart';
 import '../../../widgets/default_button.dart';
 
+import 'package:hometech_app/screens/login/login_screen.dart';
+
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -64,7 +66,15 @@ class _BodyState extends State<Body> {
                       children: List.generate(splashData.length,
                           (index) => buildDot(index: index))),
                   const Spacer(flex: 3),
-                  DefaultButton(text: "Continue", onPress: () {}),
+                  DefaultButton(
+                      text: "Continuar",
+                      onPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      }),
                   const Spacer()
                 ]),
               ),
