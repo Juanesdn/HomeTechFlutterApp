@@ -3,6 +3,8 @@ import 'package:hometech_app/screens/welcome/widgets/body.dart';
 import 'package:hometech_app/size_config.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  static String routeName = "/welcome";
+
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
