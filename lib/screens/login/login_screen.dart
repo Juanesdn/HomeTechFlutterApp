@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
+import '../../size_config.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,6 +15,65 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     setState(() {});
   }
+
+  Color _getTextColor(Set<MaterialState> states) => states.any(<MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      }.contains)
+          ? Colors.green
+          : Colors.blue;
+
+  testButton() => ElevatedButton.icon(
+      onPressed: () {/* do something here */},
+      icon: googleLogo(),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateColor.resolveWith(_getTextColor),
+      ),
+      label: Text(
+        "Update",
+        style: TextStyle(color: Colors.white),
+      ));
+
+  registrarseButton() => MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        color: primaryColor,
+        onPressed: () =>
+            setState(() => _isPasswordVisible = _isPasswordVisible),
+        child: Text(
+          "Registrarse",
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+
+  googleLogo() => Image.asset(
+        "../../../assets/images/Google_logo.png",
+        height: 30,
+        width: 30,
+      );
+
+  facebookLogo() => Image.asset(
+        "../../../assets/images/Facebook_logo.png",
+        height: 30,
+        width: 30,
+      );
+
+  redSocialButton() => MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        color: Color(0xFF3B5998),
+        onPressed: () =>
+            setState(() => _isPasswordVisible = _isPasswordVisible),
+        child: Text(
+          "Conectarse con facebook",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
 
   passwordIconButton() => IconButton(
         color: primaryColor,
@@ -72,41 +132,48 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            alignment: Alignment.topCenter,
-            child: SizedBox(
-                width: (MediaQuery.of(context).size.width) / 2,
-                child: DecoratedBox(
-                    decoration: BoxDecoration(color: Color(0xFFF6F7FA)),
-                    child: Column(
-                      //  mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Empecemos aquí",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontFamily: "Roboto",
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -0.41,
-                          ),
-                        ),
-                        Text(
-                          "Registrate para empezar",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Color(0xFF7A7A7A),
-                            fontFamily: "Roboto",
-                            fontSize: 17,
-                            letterSpacing: -0.41,
-                          ),
-                        ),
-                        fullnameTextFormField(),
-                        emailTextFormField(),
-                        passwordTextFormField(),
-                      ],
-                    )))));
+      body: Container(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: (MediaQuery.of(context).size.width) / 2,
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: Color(0xFFF6F7FA)),
+            child: Column(
+              //  mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Empecemos aquí",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontFamily: "Roboto",
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.41,
+                  ),
+                ),
+                Text(
+                  "Registrate para empezar",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Color(0xFF7A7A7A),
+                    fontFamily: "Roboto",
+                    fontSize: 17,
+                    letterSpacing: -0.41,
+                  ),
+                ),
+                fullnameTextFormField(),
+                emailTextFormField(),
+                passwordTextFormField(),
+                registrarseButton(),
+                redSocialButton(),
+                testButton(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
