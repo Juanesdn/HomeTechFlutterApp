@@ -7,11 +7,67 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isPasswordVisible = false;
+
   @override
   void initState() {
     super.initState();
     setState(() {});
   }
+
+  passwordIconButton() => IconButton(
+        color: primaryColor,
+        icon: _isPasswordVisible
+            ? Icon(Icons.visibility)
+            : Icon(Icons.visibility_off),
+        onPressed: () =>
+            setState(() => _isPasswordVisible = !_isPasswordVisible),
+      );
+
+  defaultInputDecoration(String label) => InputDecoration(
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide.none),
+        fillColor: Color(0xFFF0F0F0),
+        filled: true,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          borderSide: BorderSide(color: primaryColor),
+        ),
+        labelStyle: TextStyle(color: Color(0xFFAEAEB2)),
+        labelText: label,
+        suffixIcon:
+            label == "Password" ? passwordIconButton() : SizedBox.shrink(),
+      );
+
+  fullnameTextFormField() => TextFormField(
+        maxLines: 1,
+        style: TextStyle(
+          foreground: null,
+          color: Color(0xFF2B2B2B),
+        ),
+        decoration: defaultInputDecoration("Fullname"),
+      );
+
+  emailTextFormField() => TextFormField(
+        maxLines: 1,
+        style: TextStyle(
+          foreground: null,
+          color: Color(0xFF2B2B2B),
+        ),
+        decoration: defaultInputDecoration("Email"),
+      );
+
+  passwordTextFormField() => TextFormField(
+        keyboardType: TextInputType.visiblePassword,
+        obscureText: !_isPasswordVisible,
+        maxLines: 1,
+        style: TextStyle(
+          foreground: null,
+          color: Color(0xFF2B2B2B),
+        ),
+        decoration: defaultInputDecoration("Password"),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -21,62 +77,35 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SizedBox(
                 width: (MediaQuery.of(context).size.width) / 2,
                 child: DecoratedBox(
-                    decoration: BoxDecoration(color: Color(0xF6F7FA)),
+                    decoration: BoxDecoration(color: Color(0xFFF6F7FA)),
                     child: Column(
                       //  mainAxisAlignment: MainAxisAlignment.center,
                       // crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
                           "Empecemos aquí",
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 34,
-                              color: Color(0x000000),
-                              letterSpacing: -0.41,
-                              fontFamily: "Roboto"),
+                            color: Color(0xFF000000),
+                            fontFamily: "Roboto",
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.41,
+                          ),
                         ),
                         Text(
                           "Registrate para empezar",
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 17,
-                              color: Color(0x7A7A7A),
-                              letterSpacing: -0.41,
-                              fontFamily: "Roboto"),
+                            color: Color(0xFF7A7A7A),
+                            fontFamily: "Roboto",
+                            fontSize: 17,
+                            letterSpacing: -0.41,
+                          ),
                         ),
-                        TextFormField(
-                            maxLines: 1,
-                            style: TextStyle(
-                              foreground: null,
-                              color: Color(0x2B2B2B),
-                            ),
-                            decoration: InputDecoration(
-                              fillColor: Color(0xF0F0F0),
-                              filled: true,
-                              labelText: "Fullname",
-                            )),
-                        TextFormField(
-                            maxLines: 1,
-                            style: TextStyle(
-                              foreground: null,
-                              color: Color(0x2B2B2B),
-                            ),
-                            decoration: InputDecoration(
-                              fillColor: Color(0xF0F0F0),
-                              filled: true,
-                              labelText: "Email",
-                            )),
-                        TextFormField(
-                            maxLines: 1,
-                            style: TextStyle(
-                              foreground: null,
-                              color: Color(0x2B2B2B),
-                            ),
-                            decoration: InputDecoration(
-                              fillColor: Color(0xF0F0F0),
-                              filled: true,
-                              labelText: "Password",
-                            )),
+                        fullnameTextFormField(),
+                        emailTextFormField(),
+                        passwordTextFormField(),
                       ],
                     )))));
   }
