@@ -5,7 +5,7 @@ import '../../../size_config.dart';
 import '../widgets/splash_content.dart';
 import '../../../widgets/default_button.dart';
 
-import 'package:hometech_app/screens/login/login_screen.dart';
+import 'package:hometech_app/screens/register/register_screen.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -72,9 +72,10 @@ class _BodyState extends State<Body> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
+                              builder: (context) => const RegisterScreen()),
                         );
-                      }),
+                      },
+                      color: Colors.white),
                   const Spacer()
                 ]),
               ),
