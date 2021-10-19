@@ -24,14 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
           ? Colors.green
           : Colors.blue;
 
-  testButton() => ElevatedButton.icon(
+  testButton(String labelText) => ElevatedButton.icon(
       onPressed: () {/* do something here */},
-      icon: googleLogo(),
+      icon: labelText == "Google" ? googleLogo() : facebookLogo(),
       style: ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith(_getTextColor),
       ),
       label: Text(
-        "Update",
+        "Conectate con " + labelText,
         style: TextStyle(color: Colors.white),
       ));
 
@@ -168,7 +168,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 passwordTextFormField(),
                 registrarseButton(),
                 redSocialButton(),
-                testButton(),
+                testButton("Facebook"),
+                testButton("Google"),
               ],
             ),
           ),
