@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hometech_app/constants.dart';
 import 'package:hometech_app/screens/welcome/welcome_screen.dart';
 
 import 'routes.dart';
+import 'theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,11 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Hometech',
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: const TextTheme(bodyText1: TextStyle(color: textColor)),
-        ),
+        theme: theme(),
         initialRoute: WelcomeScreen.routeName,
         routes: routes);
   }

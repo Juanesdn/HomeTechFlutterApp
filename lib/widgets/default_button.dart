@@ -8,10 +8,12 @@ class DefaultButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onPress,
+    required this.color,
   }) : super(key: key);
 
   final String text;
   final VoidCallback onPress;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,7 @@ class DefaultButton extends StatelessWidget {
           onPressed: onPress,
           child: Text(text,
               style: TextStyle(
-                  fontSize: getProportionateScreenWidth(18),
-                  color: Colors.white))),
+                  fontSize: getProportionateScreenWidth(18), color: color))),
     );
   }
 }
