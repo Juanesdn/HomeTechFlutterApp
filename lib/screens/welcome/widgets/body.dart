@@ -4,8 +4,8 @@ import '../../../constants.dart';
 import '../../../size_config.dart';
 import '../widgets/splash_content.dart';
 import '../../../widgets/default_button.dart';
-
-import 'package:hometech_app/screens/register/register_screen.dart';
+// import '../../register/register_screen.dart';
+import '../../login/login_screen.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _BodyState extends State<Body> {
 
   List<Map<String, String>> splashData = [
     {
-      "text": "Disponibildiad los 365 dias del año",
+      "text": "Disponibilidad los 365 dias del año",
       "image": "assets/images/flame-renovation-work.png"
     },
     {
@@ -72,7 +72,8 @@ class _BodyState extends State<Body> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RegisterScreen()),
+                              builder:
+                                  (context) => /* const RegisterScreen() */ const LoginScreen()),
                         );
                       },
                       color: Colors.white),
