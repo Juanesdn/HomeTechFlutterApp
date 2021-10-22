@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hometech_app/screens/homepage/homepage.dart';
 import 'package:hometech_app/widgets/custom_icon.dart';
 import 'package:hometech_app/widgets/default_button.dart';
 import 'package:hometech_app/widgets/form_errors.dart';
@@ -49,6 +50,10 @@ class _SignFormState extends State<SignForm> {
               onPress: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
                 }
               },
               color: Colors.white)
