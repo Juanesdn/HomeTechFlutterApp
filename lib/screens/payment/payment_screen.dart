@@ -54,54 +54,67 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           gradient: secundaryGradientColor,
         ),
-        child: Padding(
-            padding: EdgeInsets.all(0),
-            child: Column(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "El rey del party",
-                          textAlign: TextAlign.left,
-                          style: cardNameTextStyle(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "\$ 67.567,25",
-                          textAlign: TextAlign.left,
-                          style: cardBalanceTextStyle(),
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: Text(
+                        "El rey del party",
+                        textAlign: TextAlign.left,
+                        style: cardNameTextStyle(),
+                      ),
                     ),
-                    mastercardLogo(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      child: Text(
+                        "\$ 67.567,25",
+                        textAlign: TextAlign.left,
+                        style: cardBalanceTextStyle(),
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: 100,
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: mastercardLogo(),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "5282 3456 7890 1289",
-                      textAlign: TextAlign.left,
-                      style: cardBottomTextStyle(),
-                    ),
-                    Text(
-                      "09/25",
-                      textAlign: TextAlign.right,
-                      style: cardBottomTextStyle(),
-                    ),
-                  ],
-                )
               ],
-            )),
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    "5282 3456 7890 1289",
+                    textAlign: TextAlign.left,
+                    style: cardBottomTextStyle(),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    "09/25",
+                    textAlign: TextAlign.right,
+                    style: cardBottomTextStyle(),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       );
 
   visaLogo() => Image.asset(
@@ -211,31 +224,40 @@ class _PaymentScreenState extends State<PaymentScreen> {
         children: [
           Container(
             decoration: greyBorderBoxDecoration(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Gasto total",
-                  textAlign: TextAlign.left,
-                  style: gastoTotalTextStyle(),
-                ),
-                Text(
-                  "\$ 13.00,45",
-                  textAlign: TextAlign.right,
-                  style: gastoTotalTextStyle(),
-                ),
-              ],
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Gasto total",
+                    textAlign: TextAlign.left,
+                    style: gastoTotalTextStyle(),
+                  ),
+                  Text(
+                    "\$ 13.00,45",
+                    textAlign: TextAlign.right,
+                    style: gastoTotalTextStyle(),
+                  ),
+                ],
+              ),
             ),
           ),
           Container(
             decoration: greyBorderBoxDecoration(),
-            child: conceptoANDdescuentoRow(
-                "1", "Primer concepto", "\$ 2.5000,45", "Concepto"),
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: conceptoANDdescuentoRow(
+                  "1", "Primer concepto", "\$ 2.5000,45", "Concepto"),
+            ),
           ),
           Container(
             decoration: greyBorderBoxDecoration(),
-            child: conceptoANDdescuentoRow(
-                "1", "Primer descuento", "-\$ 12.000,45", "Descuento"),
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: conceptoANDdescuentoRow(
+                  "1", "Primer descuento", "-\$ 12.000,45", "Descuento"),
+            ),
           ),
         ],
       );
@@ -323,17 +345,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
               children: <Widget>[
                 defaultText("Pago"),
                 defaultText("Antes de enviar al tecnico"),
-                cardContainer(),
-                gastoTotalColum(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    defaultButton("Cancelar"),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    defaultButton("Pagar"),
-                  ],
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: cardContainer(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: gastoTotalColum(),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      defaultButton("Cancelar"),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      defaultButton("Pagar"),
+                    ],
+                  ),
                 ),
               ],
             ),
