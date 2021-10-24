@@ -33,10 +33,18 @@ class _nav extends StatelessWidget {
       currentIndex: navModel.getActualPage,
       onTap: (i) => navModel.setActualPage = i,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("Inicio")),
-        BottomNavigationBarItem(icon: Icon(Icons.send), title: Text("Chat")),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_pin), title: Text("Perfil")),
+          icon: Icon(Icons.home),
+          label: "Inicio",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.send),
+          label: "Chat",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_pin),
+          label: "Perfil",
+        ),
       ],
     );
   }
