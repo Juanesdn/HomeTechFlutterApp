@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hometech_app/screens/login/widgets/sign_form.dart';
+import 'package:hometech_app/screens/register/register_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -35,12 +36,24 @@ class Body extends StatelessWidget {
             const SignForm(),
             SizedBox(height: getProportionateScreenHeight(20)),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text("No tienes una cuenta? ",
+              Text("¿No tienes una cuenta? ",
                   style: TextStyle(fontSize: getProportionateScreenWidth(16))),
-              Text("Registrate",
-                  style: TextStyle(
-                      fontSize: getProportionateScreenWidth(16),
-                      color: primaryColor))
+              TextButton(
+                style: TextButton.styleFrom(
+                  primary: Color(0xFFFF7643),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterScreen()),
+                  );
+                },
+                child: const Text(
+                  'Registrate',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
             ])
           ]),
         ),
