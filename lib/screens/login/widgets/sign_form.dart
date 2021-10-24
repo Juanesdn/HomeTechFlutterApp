@@ -40,7 +40,7 @@ class _SignFormState extends State<SignForm> {
                 }),
             const Text("Recuerdame"),
             const Spacer(),
-            const Text("Olvidaste tu contraseña?",
+            const Text("¿Olvidaste tu contraseña?",
                 style: TextStyle(decoration: TextDecoration.underline))
           ]),
           FormErrors(errors: errors),
