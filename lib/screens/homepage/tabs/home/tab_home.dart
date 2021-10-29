@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hometech_app/screens/categories/categories.dart';
+import 'package:hometech_app/widgets/default_button.dart';
 
 class TabHome extends StatelessWidget {
   @override
@@ -13,7 +15,7 @@ class TabHome extends StatelessWidget {
             _title(),
             _search(),
             _card(),
-            _category(),
+            _category(context),
             _frecuent(),
             _others()
           ],
@@ -79,7 +81,7 @@ class TabHome extends StatelessWidget {
   }
 }
 
-_category() {
+_category(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -108,16 +110,23 @@ _category() {
                 ),
                 SizedBox(width: 76),
                 SizedBox(
-                  width: 70,
-                  child: Text(
-                    "Ver todo",
-                    style: TextStyle(
-                      color: Color(0xff202020),
-                      fontSize: 15,
-                      decoration: TextDecoration.underline,
+                    width: 70,
+                    child: DefaultButton(
+                      text: "Ver todo",
+                      onPress: (() => {
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoriesPage()),
+                          }),
+                      color: Colors.black,
+                      // style: TextStyle(Navigator.push(
+                    )
+                    //   color: Color(0xff202020),
+                    //   fontSize: 15,
+                    //   decoration: TextDecoration.underline,
+                    // ),
+
                     ),
-                  ),
-                ),
               ],
             ),
           ),
