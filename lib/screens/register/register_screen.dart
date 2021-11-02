@@ -3,6 +3,7 @@ import 'package:hometech_app/constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
+  static String routeName = "/signup";
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();

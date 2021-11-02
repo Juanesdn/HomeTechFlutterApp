@@ -88,8 +88,8 @@ _category(BuildContext context) {
       Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.all(25),
-            width: 340,
+            margin: EdgeInsets.all(15),
+            width: 330,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +110,7 @@ _category(BuildContext context) {
                 ),
                 SizedBox(width: 76),
                 SizedBox(
-                    width: 70,
+                    width: 80,
                     child: DefaultButton(
                       text: "Ver todo",
                       onPress: (() => {
@@ -118,7 +118,7 @@ _category(BuildContext context) {
                             MaterialPageRoute(
                                 builder: (context) => CategoriesPage()),
                           }),
-                      color: Colors.black,
+                      color: Colors.white,
                       // style: TextStyle(Navigator.push(
                     )
                     //   color: Color(0xff202020),
@@ -144,8 +144,8 @@ _frecuent() {
       Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.all(25),
-            width: 340,
+            margin: EdgeInsets.all(15),
+            width: 330,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -193,8 +193,8 @@ _others() {
       Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.all(25),
-            width: 340,
+            margin: EdgeInsets.all(15),
+            width: 330,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
