@@ -2,12 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TabProfile extends StatelessWidget {
-  avatarCircular(Widget icon) => CircleAvatar(
-        backgroundColor: Color(0xFFF0F0F0),
-        radius: 22,
-        child: Center(child: icon),
-      );
-
   profilePicture() => Container(
         margin: EdgeInsets.all(20),
         width: 200,
@@ -109,7 +103,7 @@ class TabProfile extends StatelessWidget {
 
   void nada() {}
 
-  menuButton(Widget textPLUSicon) => Container(
+  menuButton(Widget widget) => Container(
         alignment: Alignment.topCenter,
         child: DecoratedBox(
           decoration: BoxDecoration(
@@ -118,13 +112,39 @@ class TabProfile extends StatelessWidget {
               borderRadius: BorderRadius.circular(14)),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                fixedSize: Size(343, 58),
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent),
+              fixedSize: Size(343, 58),
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ),
             onPressed: () => nada(),
-            child: textPLUSicon,
+            child: widget,
           ),
         ),
+      );
+
+  menuButton2(Widget widget) => Container(
+        alignment: Alignment.topCenter,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            shape: BoxShape.circle,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              fixedSize: Size(44, 44),
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ),
+            onPressed: () => nada(),
+            child: widget,
+          ),
+        ),
+      );
+
+  avatarCircular(Widget icon) => CircleAvatar(
+        backgroundColor: Color(0xFFF0F0F0),
+        radius: 22,
+        child: Center(child: icon),
       );
 
   @override
@@ -142,8 +162,8 @@ class TabProfile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    avatarCircular(settingIcon()),
-                    avatarCircular(notificationIcon()),
+                    menuButton2(avatarCircular(settingIcon())),
+                    menuButton2(avatarCircular(notificationIcon())),
                   ],
                 ),
                 profilePicture(),
