@@ -58,7 +58,8 @@ class _WelcomeAdminScreenState extends State<WelcomeAdminScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Bienvenido de vuelta",
