@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "467299992328",
+    "project_id": "hometech-8c2a3",
+    "storage_bucket": "hometech-8c2a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467299992328:android:27cbcea38d13ad643de2bd",
+        "android_client_info": {
+          "package_name": "com.example.hometech_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467299992328-a05rh7htmai73df9ck74tlkk6o0fo9kf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIgmFi4-TaKrj3r3t28g4ptLvpDgA5hlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467299992328-a05rh7htmai73df9ck74tlkk6o0fo9kf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
