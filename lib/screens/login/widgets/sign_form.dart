@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/screens/homepage/homepage.dart';
 import 'package:hometech_app/widgets/custom_icon.dart';
@@ -20,6 +21,20 @@ class _SignFormState extends State<SignForm> {
   late String password;
   bool rememberPassword = false;
   final List<String> errors = [];
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void loginUser() async {
+    CollectionReference colRef =
+        FirebaseFirestore.instance.collection("usuarios");
+    QuerySnapshot users = await colRef.get();
+    if (users.docs.length > 0) {
+      for (var doc in users.docs) {
+        print(doc);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -55,6 +70,7 @@ class _SignFormState extends State<SignForm> {
                     MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 }
+                loginUser();
               },
               color: Colors.white)
         ]));
@@ -62,6 +78,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+        controller: passwordController,
         obscureText: true,
         onChanged: (value) {
           if (value.isNotEmpty && errors.contains(emptyPasswordError)) {
@@ -98,6 +115,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+        controller: emailController,
         keyboardType: TextInputType.emailAddress,
         onSaved: (newValue) => email = newValue!,
         onChanged: (value) {

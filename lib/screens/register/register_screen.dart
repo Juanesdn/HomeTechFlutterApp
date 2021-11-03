@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
 
@@ -12,11 +13,27 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
+  String _fullName = "";
+  String _email = "";
+  String _password = "";
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     setState(() {});
+  }
+
+  void saveUsers() async {
+    _fullName = fullNameController.text;
+    _email = emailController.text;
+    _password = passwordController.text;
+    CollectionReference users =
+        FirebaseFirestore.instance.collection("usuarios");
+
+    users.add({"email": _email, "fullname": _fullName, "password": _password});
   }
 
   Color _getTextColor(Set<MaterialState> states) => states.any(<MaterialState>{
@@ -43,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         borderRadius: BorderRadius.circular(20),
       ),
       color: primaryColor,
-      onPressed: () => setState(() => _isPasswordVisible = _isPasswordVisible),
+      onPressed: () => saveUsers(),
       child: Padding(
         padding: EdgeInsetsDirectional.fromSTEB(130, 20, 130, 20),
         child: Text(
@@ -106,6 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   fullnameTextFormField() => TextFormField(
+        controller: fullNameController,
         maxLines: 1,
         style: TextStyle(
           foreground: null,
@@ -119,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   emailTextFormField() => TextFormField(
+        controller: emailController,
         maxLines: 1,
         style: TextStyle(
           foreground: null,
@@ -132,6 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   passwordTextFormField() => TextFormField(
+        controller: passwordController,
         keyboardType: TextInputType.visiblePassword,
         obscureText: !_isPasswordVisible,
         maxLines: 1,
@@ -169,6 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   'Empecemos aquí',
                   textAlign: TextAlign.left,
                   style: TextStyle(
+                    color: Colors.black,
                     fontFamily: "Roboto",
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
