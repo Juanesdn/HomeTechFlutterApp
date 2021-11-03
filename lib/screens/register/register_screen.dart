@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
+import 'package:hometech_app/screens/login/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -30,12 +33,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _fullName = fullNameController.text;
     _email = emailController.text;
     _password = passwordController.text;
+
+    _auth.createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+
     CollectionReference users =
         FirebaseFirestore.instance.collection("usuarios");
 
-    users.add({"email": _email, "fullname": _fullName, "password": _password});
-  }
+    users.add({"email": _email, "fullname": _fullName});
 
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+  /*
   Color _getTextColor(Set<MaterialState> states) => states.any(<MaterialState>{
         MaterialState.pressed,
         MaterialState.hovered,
@@ -43,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }.contains)
           ? Colors.green
           : Colors.blue;
-  /*
+  
   testButton() => ElevatedButton.icon(
       onPressed: () {/* do something here */},
       //icon: googleLogo(),

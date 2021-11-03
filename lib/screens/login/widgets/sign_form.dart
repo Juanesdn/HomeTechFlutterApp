@@ -4,6 +4,7 @@ import 'package:hometech_app/screens/homepage/homepage.dart';
 import 'package:hometech_app/widgets/custom_icon.dart';
 import 'package:hometech_app/widgets/default_button.dart';
 import 'package:hometech_app/widgets/form_errors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -17,20 +18,30 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late String email;
-  late String password;
+  late String _email;
+  late String _password;
   bool rememberPassword = false;
   final List<String> errors = [];
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void loginUser() async {
-    CollectionReference colRef =
-        FirebaseFirestore.instance.collection("usuarios");
-    QuerySnapshot users = await colRef.get();
-    if (users.docs.length > 0) {
-      for (var doc in users.docs) {
-        print(doc);
+    _email = emailController.text;
+    _password = passwordController.text;
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: _email, password: _password);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
       }
     }
   }
@@ -65,12 +76,8 @@ class _SignFormState extends State<SignForm> {
               onPress: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
+                  loginUser();
                 }
-                loginUser();
               },
               color: Colors.white)
         ]));
@@ -105,7 +112,7 @@ class _SignFormState extends State<SignForm> {
           }
           return null;
         },
-        onSaved: (newValue) => password = newValue!,
+        onSaved: (newValue) => _password = newValue!,
         decoration: const InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: "Contraseña",
@@ -117,7 +124,7 @@ class _SignFormState extends State<SignForm> {
     return TextFormField(
         controller: emailController,
         keyboardType: TextInputType.emailAddress,
-        onSaved: (newValue) => email = newValue!,
+        onSaved: (newValue) => _email = newValue!,
         onChanged: (value) {
           if (value.isNotEmpty && errors.contains(emptyEmailError)) {
             setState(() {
