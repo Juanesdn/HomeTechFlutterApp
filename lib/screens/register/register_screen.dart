@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
+import 'package:hometech_app/screens/login/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
+
+  static String routeName = "/register";
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -10,6 +15,13 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
+  String _fullName = "";
+  String _email = "";
+  String _password = "";
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -17,6 +29,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {});
   }
 
+  void saveUsers() async {
+    _fullName = fullNameController.text;
+    _email = emailController.text;
+    _password = passwordController.text;
+
+    _auth.createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+
+    CollectionReference users =
+        FirebaseFirestore.instance.collection("usuarios");
+
+    users.add({"email": _email, "fullname": _fullName});
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+  /*
   Color _getTextColor(Set<MaterialState> states) => states.any(<MaterialState>{
         MaterialState.pressed,
         MaterialState.hovered,
@@ -24,10 +55,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }.contains)
           ? Colors.green
           : Colors.blue;
-
+  
   testButton() => ElevatedButton.icon(
       onPressed: () {/* do something here */},
-      icon: googleLogo(),
+      //icon: googleLogo(),
       style: ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith(_getTextColor),
       ),
@@ -35,20 +66,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         "Update",
         style: TextStyle(color: Colors.white),
       ));
-
+  */
   registrarseButton() => MaterialButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        color: primaryColor,
-        onPressed: () =>
-            setState(() => _isPasswordVisible = _isPasswordVisible),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      color: primaryColor,
+      onPressed: () => saveUsers(),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(130, 20, 130, 20),
         child: Text(
           "Registrarse",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 17),
         ),
-      );
-
+      ));
+  /*
   googleLogo() => Image.asset(
         "../../../assets/images/Google_logo.png",
         height: 30,
@@ -60,6 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         height: 30,
         width: 30,
       );
+      */
 
   redSocialButton() => MaterialButton(
         shape: RoundedRectangleBorder(
@@ -102,24 +135,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   fullnameTextFormField() => TextFormField(
+        controller: fullNameController,
         maxLines: 1,
         style: TextStyle(
           foreground: null,
           color: Color(0xFF2B2B2B),
         ),
-        decoration: defaultInputDecoration("Fullname"),
+        decoration: InputDecoration(
+            fillColor: Color(0xF0F0F0),
+            border:
+                UnderlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+            hintText: 'Fullname'),
       );
 
   emailTextFormField() => TextFormField(
+        controller: emailController,
         maxLines: 1,
         style: TextStyle(
           foreground: null,
           color: Color(0xFF2B2B2B),
         ),
-        decoration: defaultInputDecoration("Email"),
+        decoration: InputDecoration(
+            fillColor: Color(0xF0F0F0),
+            border:
+                UnderlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+            hintText: 'Email'),
       );
 
   passwordTextFormField() => TextFormField(
+        controller: passwordController,
         keyboardType: TextInputType.visiblePassword,
         obscureText: !_isPasswordVisible,
         maxLines: 1,
@@ -127,54 +171,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
           foreground: null,
           color: Color(0xFF2B2B2B),
         ),
-        decoration: defaultInputDecoration("Password"),
+        decoration: InputDecoration(
+            fillColor: Color(0xF0F0F0),
+            border:
+                UnderlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+            hintText: 'Password'),
       );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.topCenter,
-        child: SizedBox(
-          width: (MediaQuery.of(context).size.width) / 2,
-          child: DecoratedBox(
-            decoration: BoxDecoration(color: Color(0xFFF6F7FA)),
-            child: Column(
-              //  mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Color(0xFF2B2B2B)),
+          automaticallyImplyLeading: true,
+          actions: [],
+          centerTitle: true,
+          elevation: 4,
+        ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 25),
+              child: SingleChildScrollView(
+                  child: Column(children: [
                 Text(
-                  "Empecemos aquí",
+                  'Empecemos aquí',
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: Color(0xFF000000),
+                    color: Colors.black,
                     fontFamily: "Roboto",
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
                     letterSpacing: -0.41,
                   ),
                 ),
-                Text(
-                  "Registrate para empezar",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Color(0xFF7A7A7A),
-                    fontFamily: "Roboto",
-                    fontSize: 17,
-                    letterSpacing: -0.41,
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 25),
+                  child: Text(
+                    "Registrate para empezar",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Color(0xFF7A7A7A),
+                      fontFamily: "Poppins",
+                      fontSize: 17,
+                      letterSpacing: -0.41,
+                    ),
                   ),
                 ),
-                fullnameTextFormField(),
-                emailTextFormField(),
-                passwordTextFormField(),
-                registrarseButton(),
-                redSocialButton(),
-                testButton(),
-              ],
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 22),
+                  child: fullnameTextFormField(),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 22),
+                  child: emailTextFormField(),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 22),
+                  child: passwordTextFormField(),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 22),
+                  child: registrarseButton(),
+                ),
+                Text(
+                  "Por medio del registro, estoy de acuerdo con los Terminos de servicio y  Políticas de privacidad",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF7A7A7A),
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    letterSpacing: -0.41,
+                  ),
+                )
+              ])),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

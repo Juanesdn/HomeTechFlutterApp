@@ -5,7 +5,9 @@ import 'package:hometech_app/screens/homepage/tabs/profile/tab_profile.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  //HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
+
+  static String routeName = "/home";
 
   @override
   _HomePageState createState() => _HomePageState();
