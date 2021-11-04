@@ -4,8 +4,11 @@ import 'package:hometech_app/screens/homepage/tabs/home/tab_home.dart';
 import 'package:hometech_app/screens/homepage/tabs/profile/tab_profile.dart';
 import 'package:provider/provider.dart';
 
+import '../../size_config.dart';
+
 class HomePage extends StatefulWidget {
-  //HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
+  static String routeName = "/home";
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -14,6 +17,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
+
     return ChangeNotifierProvider(
       create: (_) => new _NavModel(),
       child: Scaffold(

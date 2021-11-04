@@ -5,7 +5,7 @@ class TabChat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: Text('Adios Marte'),
+      child: Text('Usted no tiene ningun chat'),
     ));
   }
 }

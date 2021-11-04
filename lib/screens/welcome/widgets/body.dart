@@ -69,12 +69,8 @@ class _BodyState extends State<Body> {
                   DefaultButton(
                       text: "Continuar",
                       onPress: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder:
-                                  (context) => /* const RegisterScreen() */ const LoginScreen()),
-                        );
+                        Navigator.popAndPushNamed(
+                            context, LoginScreen.routeName);
                       },
                       color: Colors.white),
                   const Spacer()

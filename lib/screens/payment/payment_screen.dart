@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
+import 'package:hometech_app/screens/success/success_screen.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -36,8 +37,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 : Colors.transparent,
             shadowColor: Colors.transparent,
           ),
-          onPressed: () =>
-              setState(() => _isPasswordVisible = _isPasswordVisible),
+          onPressed: () => setState(() {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SuccessScreen()));
+          }),
           child: Text(
             labelText,
             style: labelText == "Cancelar"
@@ -64,10 +67,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Text(
-                        "El rey del party",
-                        textAlign: TextAlign.left,
-                        style: cardNameTextStyle(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 280),
+                        child: Text(
+                          "LUIS VALERIO OROZCO DE LA CRUZ",
+                          textAlign: TextAlign.left,
+                          style: cardNameTextStyle(),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -332,41 +338,44 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          alignment: Alignment.topCenter,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Color(0xFFF6F6F6),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                defaultText("Pago"),
-                defaultText("Antes de enviar al tecnico"),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: cardContainer(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: gastoTotalColum(),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      defaultButton("Cancelar"),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      defaultButton("Pagar"),
-                    ],
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Scaffold(
+          body: Container(
+            alignment: Alignment.topCenter,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Color(0xFFF6F6F6),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  defaultText("Pago"),
+                  defaultText("Antes de enviar al tecnico"),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: cardContainer(),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: gastoTotalColum(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        defaultButton("Cancelar"),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        defaultButton("Pagar"),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

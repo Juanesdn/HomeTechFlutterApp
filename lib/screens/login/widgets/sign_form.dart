@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/screens/homepage/homepage.dart';
+import 'package:hometech_app/services/authentication_service.dart';
 import 'package:hometech_app/widgets/custom_icon.dart';
 import 'package:hometech_app/widgets/default_button.dart';
 import 'package:hometech_app/widgets/form_errors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/src/provider.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -16,52 +20,75 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late String email;
-  late String password;
-  bool rememberPassword = false;
+  late String _email;
+  late String _password;
   final List<String> errors = [];
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void loginUser() async {
+    _email = emailController.text.trim();
+    _password = passwordController.text.trim();
+    if (_email == 'admin' && _password == 'admin') {
+      //Navigator.push(context,
+      //   MaterialPageRoute(builder: (context) => TechniciansScreen()));
+    } else {
+      await Provider.of<AuthenticationService>(context, listen: false)
+          .signIn(context, _email, _password);
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthenticationService>(context);
+
     return Form(
         key: _formKey,
         child: Column(children: [
+          SizedBox(height: 20),
+          if (authProvider.errorMessage != "")
+            Container(
+                color: Colors.amberAccent,
+                child: ListTile(
+                    title: Text(authProvider.errorMessage),
+                    leading: const Icon(Icons.error),
+                    trailing: IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => authProvider.setErrorMessage("")))),
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(20)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(20)),
-          Row(children: [
-            Checkbox(
-                value: rememberPassword,
-                activeColor: primaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    rememberPassword = value!;
-                  });
-                }),
-            const Text("Recuerdame"),
-            const Spacer(),
-            const Text("Olvidaste tu contraseña?",
+          Row(children: const [
+            Text("¿Olvidaste tu contraseña?",
                 style: TextStyle(decoration: TextDecoration.underline))
           ]),
           FormErrors(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          DefaultButton(
-              text: "Iniciar Sesión",
-              onPress: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                }
-              },
-              color: Colors.white)
+          authProvider.isLoading
+              ? const CircularProgressIndicator()
+              : DefaultButton(
+                  text: "Iniciar Sesión",
+                  onPress: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      loginUser();
+                    }
+                  },
+                  color: Colors.white)
         ]));
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+        controller: passwordController,
         obscureText: true,
         onChanged: (value) {
           if (value.isNotEmpty && errors.contains(emptyPasswordError)) {
@@ -88,7 +115,7 @@ class _SignFormState extends State<SignForm> {
           }
           return null;
         },
-        onSaved: (newValue) => password = newValue!,
+        onSaved: (newValue) => _password = newValue!,
         decoration: const InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: "Contraseña",
@@ -98,8 +125,9 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+        controller: emailController,
         keyboardType: TextInputType.emailAddress,
-        onSaved: (newValue) => email = newValue!,
+        onSaved: (newValue) => _email = newValue!,
         onChanged: (value) {
           if (value.isNotEmpty && errors.contains(emptyEmailError)) {
             setState(() {

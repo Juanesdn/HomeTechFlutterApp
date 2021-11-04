@@ -12,7 +12,7 @@ class TabHome extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SizedBox(height: 30),
-            _title(),
+            _title(context),
             _search(),
             _card(),
             _category(context),
@@ -72,7 +72,7 @@ class TabHome extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ],
@@ -88,8 +88,8 @@ _category(BuildContext context) {
       Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.all(25),
-            width: 340,
+            margin: EdgeInsets.all(15),
+            width: 330,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +101,7 @@ _category(BuildContext context) {
                       "Categorías",
                       style: TextStyle(
                         color: Color(0xff202020),
-                        fontSize: 34,
+                        fontSize: 32,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       ),
@@ -109,24 +109,25 @@ _category(BuildContext context) {
                   ),
                 ),
                 SizedBox(width: 76),
-                SizedBox(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoriesPage()));
+                  },
+                  child: SizedBox(
                     width: 70,
-                    child: DefaultButton(
-                      text: "Ver todo",
-                      onPress: (() => {
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CategoriesPage()),
-                          }),
-                      color: Colors.black,
-                      // style: TextStyle(Navigator.push(
-                    )
-                    //   color: Color(0xff202020),
-                    //   fontSize: 15,
-                    //   decoration: TextDecoration.underline,
-                    // ),
-
+                    child: Text(
+                      "Ver todo",
+                      style: TextStyle(
+                        color: Color(0xff202020),
+                        fontSize: 15,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -144,8 +145,8 @@ _frecuent() {
       Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.all(25),
-            width: 340,
+            margin: EdgeInsets.all(15),
+            width: 330,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +158,7 @@ _frecuent() {
                       "Frecuentes",
                       style: TextStyle(
                         color: Color(0xff202020),
-                        fontSize: 34,
+                        fontSize: 32,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       ),
@@ -193,8 +194,8 @@ _others() {
       Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.all(25),
-            width: 340,
+            margin: EdgeInsets.all(15),
+            width: 330,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -206,7 +207,7 @@ _others() {
                       "Otros",
                       style: TextStyle(
                         color: Color(0xff202020),
-                        fontSize: 34,
+                        fontSize: 32,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       ),
@@ -279,7 +280,10 @@ Widget _slide() {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: FlutterLogo(size: 125),
+                child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'https://decortips.com/es/wp-content/uploads/2018/09/electrodomesticos-cocina-768x512.jpg')),
               ),
               SizedBox(height: 2.50),
               Column(
@@ -379,7 +383,7 @@ Widget _search() {
   );
 }
 
-Widget _title() {
+Widget _title(context) {
   return Container(
     //width: 343,
     //height: 77,
@@ -421,42 +425,48 @@ Widget _title() {
           ],
         ),
         SizedBox(width: 15),
-        Container(
-          // width: 104,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-              begin: Alignment.centerRight,
-              end: Alignment.centerLeft,
-              colors: [Color(0xfffe904b), Color(0xfffb724c)],
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CategoriesPage()));
+          },
+          child: Container(
+            // width: 104,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: LinearGradient(
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
+                colors: [Color(0xfffe904b), Color(0xfffb724c)],
+              ),
             ),
-          ),
-          padding: const EdgeInsets.symmetric(
-            // horizontal: 15,
-            vertical: 13,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(width: 5),
-              Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              SizedBox(width: 15),
-              Text(
-                "Pedir Servicio",
-                style: TextStyle(
-                  color: Color(0xfffcfcfc),
-                  fontSize: 10,
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.w700,
+            padding: const EdgeInsets.symmetric(
+              // horizontal: 15,
+              vertical: 13,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(width: 5),
+                Icon(
+                  Icons.add,
+                  color: Colors.white,
                 ),
-              ),
-              SizedBox(width: 15),
-            ],
+                SizedBox(width: 15),
+                Text(
+                  "Pedir Servicio",
+                  style: TextStyle(
+                    color: Color(0xfffcfcfc),
+                    fontSize: 10,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(width: 15),
+              ],
+            ),
           ),
         ),
       ],

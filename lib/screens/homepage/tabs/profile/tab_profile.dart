@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hometech_app/services/authentication_service.dart';
+import 'package:provider/src/provider.dart';
 
 class TabProfile extends StatelessWidget {
-  avatarCircular(Widget icon) => CircleAvatar(
-        backgroundColor: Color(0xFFF0F0F0),
-        radius: 22,
-        child: Center(child: icon),
-      );
-
   profilePicture() => Container(
         margin: EdgeInsets.all(20),
         width: 200,
@@ -101,6 +97,12 @@ class TabProfile extends StatelessWidget {
         size: 20.0,
       );
 
+  logoutIcon() => Icon(
+        Icons.logout,
+        color: Color(0xFF2B2B2B),
+        size: 20.0,
+      );
+
   walletIcon() => Icon(
         Icons.money_outlined,
         color: Color(0xFF2B2B2B),
@@ -109,7 +111,7 @@ class TabProfile extends StatelessWidget {
 
   void nada() {}
 
-  menuButton(Widget textPLUSicon) => Container(
+  menuButton(Widget widget, VoidCallback onPressed) => Container(
         alignment: Alignment.topCenter,
         child: DecoratedBox(
           decoration: BoxDecoration(
@@ -118,13 +120,39 @@ class TabProfile extends StatelessWidget {
               borderRadius: BorderRadius.circular(14)),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                fixedSize: Size(343, 58),
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent),
-            onPressed: () => nada(),
-            child: textPLUSicon,
+              fixedSize: Size(343, 58),
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ),
+            onPressed: onPressed,
+            child: widget,
           ),
         ),
+      );
+
+  menuButton2(Widget widget) => Container(
+        alignment: Alignment.topCenter,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            shape: BoxShape.circle,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              fixedSize: Size(44, 44),
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ),
+            onPressed: () => nada(),
+            child: widget,
+          ),
+        ),
+      );
+
+  avatarCircular(Widget icon) => CircleAvatar(
+        backgroundColor: Color(0xFFF0F0F0),
+        radius: 22,
+        child: Center(child: icon),
       );
 
   @override
@@ -142,8 +170,8 @@ class TabProfile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    avatarCircular(settingIcon()),
-                    avatarCircular(notificationIcon()),
+                    menuButton2(avatarCircular(settingIcon())),
+                    menuButton2(avatarCircular(notificationIcon())),
                   ],
                 ),
                 profilePicture(),
@@ -163,35 +191,48 @@ class TabProfile extends StatelessWidget {
                   height: 12,
                 ),
                 menuButton(
-                  textPLUSicon(
-                    "iconText",
-                    "Billetera",
-                    menuItemTextStyle(),
-                    walletIcon(),
-                  ),
-                ),
+                    textPLUSicon(
+                      "iconText",
+                      "Billetera",
+                      menuItemTextStyle(),
+                      walletIcon(),
+                    ),
+                    () {}),
                 SizedBox(
                   height: 12,
                 ),
                 menuButton(
-                  textPLUSicon(
-                    "iconText",
-                    "Servicios",
-                    menuItemTextStyle(),
-                    serviceIcon(),
-                  ),
-                ),
+                    textPLUSicon(
+                      "iconText",
+                      "Servicios",
+                      menuItemTextStyle(),
+                      serviceIcon(),
+                    ),
+                    () {}),
                 SizedBox(
                   height: 12,
                 ),
                 menuButton(
-                  textPLUSicon(
-                    "iconText",
-                    "Mis favoritos",
-                    menuItemTextStyle(),
-                    favoriteIcon(),
-                  ),
+                    textPLUSicon(
+                      "iconText",
+                      "Mis favoritos",
+                      menuItemTextStyle(),
+                      favoriteIcon(),
+                    ),
+                    () {}),
+                SizedBox(
+                  height: 12,
                 ),
+                menuButton(
+                    textPLUSicon(
+                      "iconText",
+                      "Cerrar Sesión",
+                      menuItemTextStyle(),
+                      logoutIcon(),
+                    ), () {
+                  Provider.of<AuthenticationService>(context, listen: false)
+                      .signOut(context);
+                }),
               ],
             ),
           ),
