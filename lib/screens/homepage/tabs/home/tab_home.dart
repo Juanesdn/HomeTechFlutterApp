@@ -72,7 +72,7 @@ class TabHome extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ],
@@ -101,7 +101,7 @@ _category(BuildContext context) {
                       "Categorías",
                       style: TextStyle(
                         color: Color(0xff202020),
-                        fontSize: 34,
+                        fontSize: 32,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       ),
@@ -109,24 +109,25 @@ _category(BuildContext context) {
                   ),
                 ),
                 SizedBox(width: 76),
-                SizedBox(
-                    width: 80,
-                    child: DefaultButton(
-                      text: "Ver todo",
-                      onPress: (() => {
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CategoriesPage()),
-                          }),
-                      color: Colors.white,
-                      // style: TextStyle(Navigator.push(
-                    )
-                    //   color: Color(0xff202020),
-                    //   fontSize: 15,
-                    //   decoration: TextDecoration.underline,
-                    // ),
-
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoriesPage()));
+                  },
+                  child: SizedBox(
+                    width: 70,
+                    child: Text(
+                      "Ver todo",
+                      style: TextStyle(
+                        color: Color(0xff202020),
+                        fontSize: 15,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -157,7 +158,7 @@ _frecuent() {
                       "Frecuentes",
                       style: TextStyle(
                         color: Color(0xff202020),
-                        fontSize: 34,
+                        fontSize: 32,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       ),
@@ -206,7 +207,7 @@ _others() {
                       "Otros",
                       style: TextStyle(
                         color: Color(0xff202020),
-                        fontSize: 34,
+                        fontSize: 32,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       ),
@@ -279,7 +280,10 @@ Widget _slide() {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: FlutterLogo(size: 125),
+                child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'https://decortips.com/es/wp-content/uploads/2018/09/electrodomesticos-cocina-768x512.jpg')),
               ),
               SizedBox(height: 2.50),
               Column(
