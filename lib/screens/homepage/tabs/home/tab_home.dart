@@ -12,7 +12,7 @@ class TabHome extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SizedBox(height: 30),
-            _title(),
+            _title(context),
             _search(),
             _card(),
             _category(context),
@@ -383,7 +383,7 @@ Widget _search() {
   );
 }
 
-Widget _title() {
+Widget _title(context) {
   return Container(
     //width: 343,
     //height: 77,
@@ -425,42 +425,48 @@ Widget _title() {
           ],
         ),
         SizedBox(width: 15),
-        Container(
-          // width: 104,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-              begin: Alignment.centerRight,
-              end: Alignment.centerLeft,
-              colors: [Color(0xfffe904b), Color(0xfffb724c)],
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CategoriesPage()));
+          },
+          child: Container(
+            // width: 104,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: LinearGradient(
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
+                colors: [Color(0xfffe904b), Color(0xfffb724c)],
+              ),
             ),
-          ),
-          padding: const EdgeInsets.symmetric(
-            // horizontal: 15,
-            vertical: 13,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(width: 5),
-              Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              SizedBox(width: 15),
-              Text(
-                "Pedir Servicio",
-                style: TextStyle(
-                  color: Color(0xfffcfcfc),
-                  fontSize: 10,
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.w700,
+            padding: const EdgeInsets.symmetric(
+              // horizontal: 15,
+              vertical: 13,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(width: 5),
+                Icon(
+                  Icons.add,
+                  color: Colors.white,
                 ),
-              ),
-              SizedBox(width: 15),
-            ],
+                SizedBox(width: 15),
+                Text(
+                  "Pedir Servicio",
+                  style: TextStyle(
+                    color: Color(0xfffcfcfc),
+                    fontSize: 10,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(width: 15),
+              ],
+            ),
           ),
         ),
       ],
