@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
 import 'package:hometech_app/screens/login/login_screen.dart';
+import 'package:hometech_app/services/authentication_service.dart';
+import 'package:provider/src/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -29,23 +31,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {});
   }
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    fullNameController.dispose();
+    super.dispose();
+  }
+
   void saveUsers() async {
     _fullName = fullNameController.text;
-    _email = emailController.text;
-    _password = passwordController.text;
+    _email = emailController.text.trim();
+    _password = passwordController.text.trim();
 
-    _auth.createUserWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
+    await Provider.of<AuthenticationService>(context, listen: false)
+        .signUp(context, _email, _password);
 
-    CollectionReference users =
+    /* CollectionReference users =
         FirebaseFirestore.instance.collection("usuarios");
 
-    users.add({"email": _email, "fullname": _fullName});
+    users.add({"email": _email, "fullname": _fullName}); */
 
-    Navigator.push(
+    /* Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
+    ); */
   }
 
   /*
@@ -68,19 +78,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: TextStyle(color: Colors.white),
       ));
   */
-  registrarseButton() => MaterialButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      color: primaryColor,
-      onPressed: () => saveUsers(),
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(130, 20, 130, 20),
-        child: Text(
-          "Registrarse",
-          style: TextStyle(color: Colors.white, fontSize: 17),
-        ),
-      ));
+  registrarseButton() => Provider.of<AuthenticationService>(context).isLoading
+      ? const CircularProgressIndicator()
+      : MaterialButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          color: primaryColor,
+          onPressed: () => saveUsers(),
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(100, 20, 100, 20),
+            child: Text(
+              "Registrarse",
+              style: TextStyle(color: Colors.white, fontSize: 17),
+            ),
+          ));
   /*
   googleLogo() => Image.asset(
         "../../../assets/images/Google_logo.png",
@@ -181,6 +193,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthenticationService>(context);
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -222,8 +236,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20),
+                if (authProvider.errorMessage != "")
+                  Container(
+                      color: Colors.amberAccent,
+                      child: ListTile(
+                          title: Text(authProvider.errorMessage),
+                          leading: const Icon(Icons.error),
+                          trailing: IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed: () =>
+                                  authProvider.setErrorMessage("")))),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 22),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 22),
                   child: fullnameTextFormField(),
                 ),
                 Padding(
@@ -247,7 +272,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fontSize: 14,
                     letterSpacing: -0.41,
                   ),
-                )
+                ),
               ])),
             ),
           ),
