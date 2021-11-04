@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hometech_app/screens/admin/welcome_admin/welcome_admin_screen.dart';
 import 'package:hometech_app/screens/homepage/homepage.dart';
 import 'package:hometech_app/services/authentication_service.dart';
 import 'package:hometech_app/widgets/custom_icon.dart';
@@ -29,9 +30,9 @@ class _SignFormState extends State<SignForm> {
   void loginUser() async {
     _email = emailController.text.trim();
     _password = passwordController.text.trim();
-    if (_email == 'admin' && _password == 'admin') {
-      //Navigator.push(context,
-      //   MaterialPageRoute(builder: (context) => TechniciansScreen()));
+    if (_email == 'admin@hometech.com' && _password == 'admin') {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => WelcomeAdminScreen()));
     } else {
       await Provider.of<AuthenticationService>(context, listen: false)
           .signIn(context, _email, _password);

@@ -1,47 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:hometech_app/screens/categories/widgets/card_table.dart';
-import 'package:hometech_app/screens/description/description_screen.dart';
 import 'package:hometech_app/screens/technicians/technicians_screen.dart';
 
-class CategoriesPage extends StatelessWidget {
+class DescriptionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: _categories(context),
+      body: CustomScrollView(
+        slivers: [
+          _CustomAppBar(),
+          SliverList(
+              delegate: SliverChildListDelegate([
+            _Overview(),
+          ]))
+        ],
+      ),
     );
   }
 }
 
-Widget _categories(context) {
-  return SingleChildScrollView(
-    child: Column(
-      children: [
-        _title(),
-        SizedBox(
-          width: 50,
-          height: 20,
-        ),
-        CardTable(),
-        SizedBox(
-          width: 50,
-          height: 50,
-        ),
-        _button(context),
-        SizedBox(
-          width: 50,
-          height: 50,
-        ),
-      ],
-    ),
-  );
+class _CustomAppBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor: Color(0xffe7e7e9),
+      expandedHeight: 200,
+      floating: false,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+          centerTitle: true,
+          titlePadding: EdgeInsets.all(0),
+          title: Container(
+              width: double.infinity,
+              alignment: Alignment.bottomCenter,
+              padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+              color: Colors.black12,
+              child: buildFormField())),
+    );
+  }
+}
+
+TextFormField buildFormField() {
+  return TextFormField(
+      decoration: const InputDecoration(
+    floatingLabelBehavior: FloatingLabelBehavior.always,
+    labelText: "Problema",
+    hintText: "Ingresa el problema aqui",
+    hintStyle: TextStyle(fontSize: 10.0),
+  ));
+}
+
+TextFormField builField() {
+  return TextFormField(
+      maxLines: 8,
+      minLines: 1,
+      decoration: const InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          labelText: "Descripción",
+          hintText: "Ingresa la descripción del problema aquí"));
+}
+
+class _Overview extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        child: Column(
+          children: [
+            builField(),
+            SizedBox(
+              height: 10,
+            ),
+            _button(context),
+          ],
+        ));
+  }
 }
 
 Widget _button(context) {
   return GestureDetector(
     onTap: () {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DescriptionScreen()));
+          MaterialPageRoute(builder: (context) => TechniciansScreen()));
     },
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -85,7 +124,7 @@ Widget _button(context) {
                   ),
                 ),
                 padding: const EdgeInsets.only(
-                  left: 103,
+                  left: 80,
                   right: 96,
                 ),
                 child: Row(
@@ -94,10 +133,10 @@ Widget _button(context) {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Pedir Ayuda",
+                      "Elige al Técnico",
                       style: TextStyle(
                         color: Color(0xffe7e7e9),
-                        fontSize: 17,
+                        fontSize: 16,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       ),
@@ -110,55 +149,5 @@ Widget _button(context) {
         ),
       ],
     ),
-  );
-}
-
-Widget _title() {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      SizedBox(
-        width: 329,
-        child: Text(
-          "Categorías",
-          style: TextStyle(
-            color: Color(0xff2b2b2b),
-            fontSize: 34,
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-      SizedBox(
-        width: 50,
-        height: 20,
-      ),
-      SizedBox(
-        width: 316,
-        child: Text(
-          "Dinos en qué necesitas ayuda",
-          style: TextStyle(
-            color: Color(0xffa0a0a0),
-            fontSize: 17,
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-      SizedBox(
-        child: Text(
-          "Escoge uno",
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            color: Color(0xff2b2b2b),
-            fontSize: 22,
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      )
-    ],
   );
 }
