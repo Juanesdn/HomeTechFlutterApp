@@ -39,8 +39,8 @@ class Body extends StatelessWidget {
               Text("¿No tienes una cuenta? ",
                   style: TextStyle(fontSize: getProportionateScreenWidth(16))),
               GestureDetector(
-                onTap: () => Navigator.popAndPushNamed(
-                    context, RegisterScreen.routeName),
+                onTap: () =>
+                    Navigator.pushNamed(context, RegisterScreen.routeName),
                 child: Text("Registrate",
                     style: TextStyle(
                         fontSize: getProportionateScreenWidth(16),

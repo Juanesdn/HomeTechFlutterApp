@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hometech_app/services/authentication_service.dart';
+import 'package:provider/src/provider.dart';
 
 class TabProfile extends StatelessWidget {
   profilePicture() => Container(
@@ -95,6 +97,12 @@ class TabProfile extends StatelessWidget {
         size: 20.0,
       );
 
+  logoutIcon() => Icon(
+        Icons.logout,
+        color: Color(0xFF2B2B2B),
+        size: 20.0,
+      );
+
   walletIcon() => Icon(
         Icons.money_outlined,
         color: Color(0xFF2B2B2B),
@@ -103,7 +111,7 @@ class TabProfile extends StatelessWidget {
 
   void nada() {}
 
-  menuButton(Widget widget) => Container(
+  menuButton(Widget widget, VoidCallback onPressed) => Container(
         alignment: Alignment.topCenter,
         child: DecoratedBox(
           decoration: BoxDecoration(
@@ -116,7 +124,7 @@ class TabProfile extends StatelessWidget {
               primary: Colors.transparent,
               shadowColor: Colors.transparent,
             ),
-            onPressed: () => nada(),
+            onPressed: onPressed,
             child: widget,
           ),
         ),
@@ -183,35 +191,48 @@ class TabProfile extends StatelessWidget {
                   height: 12,
                 ),
                 menuButton(
-                  textPLUSicon(
-                    "iconText",
-                    "Billetera",
-                    menuItemTextStyle(),
-                    walletIcon(),
-                  ),
-                ),
+                    textPLUSicon(
+                      "iconText",
+                      "Billetera",
+                      menuItemTextStyle(),
+                      walletIcon(),
+                    ),
+                    () {}),
                 SizedBox(
                   height: 12,
                 ),
                 menuButton(
-                  textPLUSicon(
-                    "iconText",
-                    "Servicios",
-                    menuItemTextStyle(),
-                    serviceIcon(),
-                  ),
-                ),
+                    textPLUSicon(
+                      "iconText",
+                      "Servicios",
+                      menuItemTextStyle(),
+                      serviceIcon(),
+                    ),
+                    () {}),
                 SizedBox(
                   height: 12,
                 ),
                 menuButton(
-                  textPLUSicon(
-                    "iconText",
-                    "Mis favoritos",
-                    menuItemTextStyle(),
-                    favoriteIcon(),
-                  ),
+                    textPLUSicon(
+                      "iconText",
+                      "Mis favoritos",
+                      menuItemTextStyle(),
+                      favoriteIcon(),
+                    ),
+                    () {}),
+                SizedBox(
+                  height: 12,
                 ),
+                menuButton(
+                    textPLUSicon(
+                      "iconText",
+                      "Cerrar Sesión",
+                      menuItemTextStyle(),
+                      logoutIcon(),
+                    ), () {
+                  Provider.of<AuthenticationService>(context, listen: false)
+                      .signOut(context);
+                }),
               ],
             ),
           ),
