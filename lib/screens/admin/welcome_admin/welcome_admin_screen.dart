@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
+import 'package:hometech_app/screens/admin/technician_list/technician_list_screen.dart';
+import 'package:hometech_app/screens/login/login_screen.dart';
+import 'package:hometech_app/screens/welcome/welcome_screen.dart';
 
 class WelcomeAdminScreen extends StatefulWidget {
   const WelcomeAdminScreen({Key? key}) : super(key: key);
@@ -35,7 +38,32 @@ class _WelcomeAdminScreenState extends State<WelcomeAdminScreen> {
               primary: Colors.transparent,
               shadowColor: Colors.transparent,
             ),
-            onPressed: () => nada(),
+            onPressed: () {
+              switch (labelText) {
+                case "Ver técnicos":
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TechnicianListScreen()));
+                  break;
+                case "Ver usuarios":
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TechnicianListScreen()));
+                  break;
+                case "Ver problemas":
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TechnicianListScreen()));
+                  break;
+                case "Salir":
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                  break;
+              }
+            },
             child: Text(
               labelText,
               style: TextStyle(color: Color(0xFFF7F7F8)),
@@ -57,24 +85,33 @@ class _WelcomeAdminScreenState extends State<WelcomeAdminScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                SizedBox(
+                  height: 120,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Bienvenido de vuelta",
-                      style: TextStyle(
-                        color: Color(0xFF2B2B2B),
-                        backgroundColor: Colors.transparent,
-                        fontSize: 34,
-                        letterSpacing: -0.41,
+                    Container(
+                      padding: EdgeInsets.only(left: 40),
+                      child: Text(
+                        "Bienvenido de vuelta",
+                        style: TextStyle(
+                          color: Color(0xFF2B2B2B),
+                          backgroundColor: Colors.transparent,
+                          fontSize: 34,
+                          letterSpacing: -0.41,
+                        ),
                       ),
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 120,
+                ),
                 defaultButton("Ver usuarios"),
-                defaultButton("Ver tecnicos"),
+                defaultButton("Ver técnicos"),
                 defaultButton("Ver problemas"),
+                defaultButton("Salir"),
               ],
             ),
           ),

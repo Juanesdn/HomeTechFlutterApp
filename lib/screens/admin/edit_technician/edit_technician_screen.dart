@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/constants.dart';
+import 'package:hometech_app/screens/admin/welcome_admin/welcome_admin_screen.dart';
 
 class EditTechnicianScreen extends StatefulWidget {
   const EditTechnicianScreen({Key? key}) : super(key: key);
@@ -61,7 +62,10 @@ class _EditTechnicianScreenState extends State<EditTechnicianScreen> {
                 : Colors.transparent,
             shadowColor: Colors.transparent,
           ),
-          onPressed: () => nada(),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => WelcomeAdminScreen()));
+          },
           child: Text(
             labelText,
             style: labelText == "Cancelar"
@@ -156,61 +160,69 @@ class _EditTechnicianScreenState extends State<EditTechnicianScreen> {
           decoration: BoxDecoration(
             color: Color(0xFFF6F6F6),
           ),
-          child: Scrollbar(
-            isAlwaysShown: true,
-            controller: _firstController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Bienvenido de vuelta",
-                      style: TextStyle(
-                        color: Color(0xFF2B2B2B),
-                        backgroundColor: Colors.transparent,
-                        fontSize: 34,
-                        letterSpacing: -0.41,
-                      ),
+          child: Column(
+            //crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Editar Técnico",
+                    style: TextStyle(
+                      color: Color(0xFF2B2B2B),
+                      backgroundColor: Colors.transparent,
+                      fontSize: 34,
+                      letterSpacing: -0.41,
                     ),
-                  ],
-                ),
-                defaultTextFormField("Fullname", 1),
-                defaultTextFormField("Email", 1),
-                defaultTextFormField("Celular", 1),
-                defaultFormField(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: defaultTextFormField("Edad", 1),
-                    ),
-                    Expanded(
-                      child: defaultTextFormField("Experiencia", 1),
-                    ),
-                  ],
-                ),
-                defaultTextFormField("Localizacion", 1),
-                defaultTextFormField("Acerca de", 3),
-                Row(
-                  children: [
-                    Expanded(
-                      child: defaultTextFormField("Puntaje", 1),
-                    ),
-                    Expanded(
-                      child: defaultTextFormField("Precio por hora", 1),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    defaultButton("Cancelar"),
-                    defaultButton("Guardar"),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              defaultTextFormField("Fullname", 1),
+              defaultTextFormField("Email", 1),
+              defaultTextFormField("Celular", 1),
+              defaultFormField(),
+              Row(
+                children: [
+                  Expanded(
+                    child: defaultTextFormField("Edad", 1),
+                  ),
+                  Expanded(
+                    child: defaultTextFormField("Experiencia", 1),
+                  ),
+                ],
+              ),
+              defaultTextFormField("Localizacion", 1),
+              defaultTextFormField("Acerca de", 3),
+              Row(
+                children: [
+                  Expanded(
+                    child: defaultTextFormField("Puntaje", 1),
+                  ),
+                  Expanded(
+                    child: defaultTextFormField("Precio por hora", 1),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  defaultButton("Cancelar"),
+                  defaultButton("Guardar"),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
+            ],
           ),
         ),
       );
@@ -219,15 +231,10 @@ class _EditTechnicianScreenState extends State<EditTechnicianScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Scrollbar(
+        appBar: AppBar(),
+        body: SingleChildScrollView(
           // Child can also be SingleChildScrollView, GridView, etc.
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return defaultSafeArea();
-            },
-          ),
+          child: defaultSafeArea(),
         ),
       ),
     );
