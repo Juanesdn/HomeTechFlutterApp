@@ -8,10 +8,13 @@ class CardTable extends StatelessWidget {
     return Table(
       children: [
         TableRow(children: [
-          _SigleCard(
-              color: Colors.black,
-              icon: Icons.router,
-              text: 'Eletrodomesticos'),
+          GestureDetector(
+            onTap: () {},
+            child: _SigleCard(
+                color: Colors.black,
+                icon: Icons.router,
+                text: 'Eletrodomesticos'),
+          ),
           _SigleCard(
               color: Colors.black,
               icon: Icons.laptop_rounded,

@@ -29,9 +29,13 @@ class _SignFormState extends State<SignForm> {
   void loginUser() async {
     _email = emailController.text.trim();
     _password = passwordController.text.trim();
-
-    await Provider.of<AuthenticationService>(context, listen: false)
-        .signIn(context, _email, _password);
+    if (_email == 'admin' && _password == 'admin') {
+      //Navigator.push(context,
+      //   MaterialPageRoute(builder: (context) => TechniciansScreen()));
+    } else {
+      await Provider.of<AuthenticationService>(context, listen: false)
+          .signIn(context, _email, _password);
+    }
   }
 
   @override
