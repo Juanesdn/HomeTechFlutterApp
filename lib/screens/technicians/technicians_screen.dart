@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hometech_app/screens/calendarPlanning/calendar_planning_screen.dart';
 
 class TechniciansScreen extends StatelessWidget {
+  static String routeName = "/technicians";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

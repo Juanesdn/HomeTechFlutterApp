@@ -30,13 +30,8 @@ class _SignFormState extends State<SignForm> {
   void loginUser() async {
     _email = emailController.text.trim();
     _password = passwordController.text.trim();
-    if (_email == 'admin@hometech.com' && _password == 'admin') {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => WelcomeAdminScreen()));
-    } else {
-      await Provider.of<AuthenticationService>(context, listen: false)
-          .signIn(context, _email, _password);
-    }
+    await Provider.of<AuthenticationService>(context, listen: false)
+        .signIn(context, _email, _password);
   }
 
   @override

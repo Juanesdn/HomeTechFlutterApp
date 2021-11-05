@@ -4,9 +4,12 @@ import 'package:hometech_app/constants.dart';
 import 'package:hometech_app/screens/admin/technician_list/technician_list_screen.dart';
 import 'package:hometech_app/screens/login/login_screen.dart';
 import 'package:hometech_app/screens/welcome/welcome_screen.dart';
+import 'package:hometech_app/services/authentication_service.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeAdminScreen extends StatefulWidget {
   const WelcomeAdminScreen({Key? key}) : super(key: key);
+  static String routeName = "/admin";
   @override
   _WelcomeAdminScreenState createState() => _WelcomeAdminScreenState();
 }
@@ -59,8 +62,8 @@ class _WelcomeAdminScreenState extends State<WelcomeAdminScreen> {
                           builder: (context) => TechnicianListScreen()));
                   break;
                 case "Salir":
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                  Provider.of<AuthenticationService>(context, listen: false)
+                      .signOut(context);
                   break;
               }
             },

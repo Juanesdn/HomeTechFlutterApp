@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hometech_app/screens/admin/edit_technician/edit_technician_screen.dart';
@@ -11,7 +12,8 @@ class TechnicianListScreen extends StatefulWidget {
 class Person {
   String name;
   String type;
-  Person(this.name, this.type);
+  String uid;
+  Person(this.name, this.type, this.uid);
 }
 
 class TechnicianListScreenState extends State<TechnicianListScreen> {
@@ -19,20 +21,42 @@ class TechnicianListScreenState extends State<TechnicianListScreen> {
   bool sortTypeAsc = true;
   bool sortNameAsc = true;
   int? sortColumnIndex, columnIndex; //creo
-  List<Person> persons = [
-    Person("Juan ", "Electrista"),
-    Person("Luis ", "Plumero"),
-    Person("Valeria ", "Eletrónico"),
-  ];
+  List<Person> persons = [];
 
   @override
   void initState() {
     super.initState();
-    persons = [
-      Person("Juan ", "Electrista"),
-      Person("Luis ", "Plumero"),
-      Person("Valeria ", "Eletrónico"),
-    ];
+    getTechnicians();
+  }
+
+  Future<void> getTechnicians() async {
+    List<Person> tempPersons = [];
+    QuerySnapshot technicians = await FirebaseFirestore.instance
+        .collection("Users")
+        .where("type", isEqualTo: "technician")
+        .get();
+
+    for (var value in technicians.docs) {
+      tempPersons.add(
+          Person(value["fullname"], value['especialidad'], value.reference.id));
+    }
+    setState(() {
+      persons = tempPersons;
+    });
+  }
+
+  deleteTechnician(userUID) async {
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(userUID)
+        .delete()
+        .then((value) => {
+              setState(() {
+                persons.removeWhere((element) => element.uid == userUID);
+              }),
+              print("User Deleted")
+            })
+        .catchError((error) => print("Failed to delete user: $error"));
   }
 
   void nada() {}
@@ -90,7 +114,9 @@ class TechnicianListScreenState extends State<TechnicianListScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => EditTechnicianScreen()));
         }),
-        DataCell(Icon(Icons.delete), onTap: () {}),
+        DataCell(Icon(Icons.delete), onTap: () {
+          deleteTechnician(person.uid);
+        }),
       ]);
     });
 
