@@ -44,18 +44,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _email = emailController.text.trim();
     _password = passwordController.text.trim();
 
-    await Provider.of<AuthenticationService>(context, listen: false)
+    User user = await Provider.of<AuthenticationService>(context, listen: false)
         .signUp(context, _email, _password);
 
-    /* CollectionReference users =
-        FirebaseFirestore.instance.collection("usuarios");
-
-    users.add({"email": _email, "fullname": _fullName}); */
-
-    /* Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    ); */
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user.uid.toString())
+        .set({"email": _email, "fullname": _fullName, "type": "client"});
   }
 
   /*
