@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hometech_app/constants.dart';
-import 'package:hometech_app/screens/admin/welcome_admin/welcome_admin_screen.dart';
-import 'package:hometech_app/services/authentication_service.dart';
-import 'package:provider/provider.dart';
+import 'package:hometech_app/controller/auth_controller.dart';
 
 class EditTechnicianScreen extends StatefulWidget {
   const EditTechnicianScreen({Key? key}) : super(key: key);
@@ -21,17 +19,8 @@ class TechnicianListDataModel {
 
 class _EditTechnicianScreenState extends State<EditTechnicianScreen> {
   final ScrollController _firstController = ScrollController();
-  final fullnameController = TextEditingController();
-  final emailController = TextEditingController();
-  final celularController = TextEditingController();
-  final edadController = TextEditingController();
-  final experienciaController = TextEditingController();
-  final localizacionController = TextEditingController();
-  final acercaDeController = TextEditingController();
-  final puntajeController = TextEditingController();
-  final precioPorHoraController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+  final _authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -60,31 +49,8 @@ class _EditTechnicianScreenState extends State<EditTechnicianScreen> {
   void nada() {}
 
   void createTechnician() async {
-    setState(() {
-      _isLoading = true;
-    });
-    User user = await Provider.of<AuthenticationService>(context, listen: false)
-        .signUp(context, emailController.text.trim(), "contraseñatecnico");
-
-    await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(user.uid.toString())
-        .set({
-      "email": emailController.text.trim(),
-      "fullname": fullnameController.text.trim(),
-      "type": "technician",
-      "celular": celularController.text.trim(),
-      "especialidad": _technicianChoose!.technician_specialization,
-      "experiencia": experienciaController.text.trim(),
-      "localizacion": localizacionController.text.trim(),
-      "acercaDe": acercaDeController.text.trim(),
-      "puntaje": 0,
-      "precioPorHora": precioPorHoraController.text.trim(),
-    });
-
-    setState(() {
-      _isLoading = false;
-    });
+    _authController
+        .createTechnician(_technicianChoose!.technician_specialization);
     Navigator.pop(context);
   }
 
@@ -229,32 +195,34 @@ class _EditTechnicianScreenState extends State<EditTechnicianScreen> {
                 SizedBox(
                   height: 40,
                 ),
-                defaultTextFormField("Fullname", 1, fullnameController),
-                defaultTextFormField("Email", 1, emailController),
-                defaultTextFormField("Celular", 1, celularController),
+                defaultTextFormField("Fullname", 1, _authController.fullName),
+                defaultTextFormField("Email", 1, _authController.email),
+                defaultTextFormField("Celular", 1, _authController.celular),
                 defaultFormField(),
                 Row(
                   children: [
                     Expanded(
-                      child: defaultTextFormField("Edad", 1, edadController),
+                      child:
+                          defaultTextFormField("Edad", 1, _authController.edad),
                     ),
                     Expanded(
                       child: defaultTextFormField(
-                          "Experiencia", 1, experienciaController),
+                          "Experiencia", 1, _authController.experiencia),
                     ),
                   ],
                 ),
-                defaultTextFormField("Localizacion", 1, localizacionController),
-                defaultTextFormField("Acerca de", 3, acercaDeController),
+                defaultTextFormField(
+                    "Localizacion", 1, _authController.localizacion),
+                defaultTextFormField("Acerca de", 3, _authController.acercaDe),
                 Row(
                   children: [
                     Expanded(
-                      child:
-                          defaultTextFormField("Puntaje", 1, puntajeController),
+                      child: defaultTextFormField(
+                          "Puntaje", 1, _authController.puntaje),
                     ),
                     Expanded(
                       child: defaultTextFormField(
-                          "Precio por hora", 1, precioPorHoraController),
+                          "Precio por hora", 1, _authController.precioPorHora),
                     ),
                   ],
                 ),
@@ -267,11 +235,9 @@ class _EditTechnicianScreenState extends State<EditTechnicianScreen> {
                     defaultButton("Cancelar", () {
                       Navigator.pop(context);
                     }),
-                    _isLoading
-                        ? CircularProgressIndicator()
-                        : defaultButton("Guardar", () {
-                            createTechnician();
-                          }),
+                    defaultButton("Guardar", () {
+                      createTechnician();
+                    })
                   ],
                 ),
                 SizedBox(

@@ -13,5 +13,7 @@ final Map<String, WidgetBuilder> routes = {
   RegisterScreen.routeName: (context) => const RegisterScreen(),
   HomePage.routeName: (context) => const HomePage(),
   WelcomeAdminScreen.routeName: (context) => const WelcomeAdminScreen(),
-  TechniciansScreen.routeName: (context) => TechniciansScreen(),
+  TechniciansScreen.routeName: (context) => TechniciansScreen(
+        category: '',
+      ),
 };

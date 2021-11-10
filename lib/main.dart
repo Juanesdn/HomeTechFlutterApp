@@ -1,18 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hometech_app/screens/login/login_screen.dart';
+import 'package:get/get.dart';
+import 'package:hometech_app/controller/auth_controller.dart';
 import 'package:hometech_app/screens/welcome/welcome_screen.dart';
-import 'package:hometech_app/widgets/error_alert.dart';
-import 'package:provider/provider.dart';
-import 'package:hometech_app/widgets/authentication_wrapper.dart';
 
+import 'controller/request_controller.dart';
 import 'routes.dart';
-import 'services/authentication_service.dart';
 import 'theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Get.lazyPut(() => AuthController());
+  Get.lazyPut(() => RequestController());
   runApp(MyApp());
 }
 
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final _firebaseInit = Firebase.initializeApp();
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,24 +26,14 @@ class MyApp extends StatelessWidget {
       future: _firebaseInit,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const ErrorAlert();
+          return const Text("There was an error loading the app");
         } else if (snapshot.hasData) {
-          return MultiProvider(
-              providers: [
-                ChangeNotifierProvider<AuthenticationService>.value(
-                    value: AuthenticationService()),
-                StreamProvider(
-                  create: (context) =>
-                      context.read<AuthenticationService>().authState,
-                  initialData: null,
-                ),
-              ],
-              child: MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Hometech',
-                  theme: theme(),
-                  home: const AuthenticationWrapper(),
-                  routes: routes));
+          return GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Hometech',
+              theme: theme(),
+              home: const WelcomeScreen(),
+              routes: routes);
         } else {
           return const CircularProgressIndicator();
         }

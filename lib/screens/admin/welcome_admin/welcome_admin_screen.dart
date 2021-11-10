@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hometech_app/constants.dart';
+import 'package:hometech_app/controller/auth_controller.dart';
 import 'package:hometech_app/screens/admin/technician_list/technician_list_screen.dart';
-import 'package:hometech_app/screens/login/login_screen.dart';
-import 'package:hometech_app/screens/welcome/welcome_screen.dart';
-import 'package:hometech_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
 class WelcomeAdminScreen extends StatefulWidget {
@@ -15,6 +14,8 @@ class WelcomeAdminScreen extends StatefulWidget {
 }
 
 class _WelcomeAdminScreenState extends State<WelcomeAdminScreen> {
+  final _authController = Get.find<AuthController>();
+
   @override
   void initState() {
     super.initState();
@@ -62,8 +63,7 @@ class _WelcomeAdminScreenState extends State<WelcomeAdminScreen> {
                           builder: (context) => TechnicianListScreen()));
                   break;
                 case "Salir":
-                  Provider.of<AuthenticationService>(context, listen: false)
-                      .signOut(context);
+                  _authController.signOut();
                   break;
               }
             },

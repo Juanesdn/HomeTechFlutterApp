@@ -60,23 +60,25 @@ class _home extends StatelessWidget {
   Widget build(BuildContext context) {
     final navModel = Provider.of<_NavModel>(context);
 
-    return PageView(
-      controller: navModel.getPageController,
-      physics: NeverScrollableScrollPhysics(),
-      children: <Widget>[
-        Container(
-          color: Colors.white,
-          child: TabHome(),
-        ),
-        Container(
-          color: Colors.white,
-          child: TabChat(),
-        ),
-        Container(
-          color: Colors.white,
-          child: TabProfile(),
-        ),
-      ],
+    return SafeArea(
+      child: PageView(
+        controller: navModel.getPageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            child: TabHome(),
+          ),
+          Container(
+            color: Colors.white,
+            child: TabChat(),
+          ),
+          Container(
+            color: Colors.white,
+            child: TabProfile(),
+          ),
+        ],
+      ),
     );
   }
 }
