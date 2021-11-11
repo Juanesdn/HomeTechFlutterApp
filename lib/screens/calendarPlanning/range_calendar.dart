@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hometech_app/controller/request_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -16,6 +18,10 @@ class _RangeCalendarState extends State<RangeCalendar> {
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.enforced;
   DateTime _focusedDay = DateTime.now(), today = DateTime.now();
   DateTime? _selectedDay, _rangeStart, _rangeEnd;
+
+  final _requestController = Get.find<RequestController>();
+
+  // TODO Change Datetime to RequestController
 
   rangedBoxDecoration() => BoxDecoration(
         color: Color(0xFFFB724C),
@@ -50,6 +56,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
               _rangeEnd = null;
               //      _rangeSelectionMode = RangeSelectionMode.toggledOff;
             });
+            _requestController.selectedDay = selectedDay;
+            _requestController.rangeStart = null;
+            _requestController.rangeEnd = null;
           }
         },
         onRangeSelected: (start, end, focusedDay) {
@@ -60,6 +69,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
             _rangeEnd = end;
             //  _rangeSelectionMode = RangeSelectionMode.toggledOn;
           });
+          _requestController.selectedDay = null;
+          _requestController.rangeStart = start;
+          _requestController.rangeEnd = end;
         },
         onFormatChanged: (format) {
           if (_calendarFormat != format) {

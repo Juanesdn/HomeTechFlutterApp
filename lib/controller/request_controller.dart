@@ -10,12 +10,22 @@ class RequestController extends GetxController {
   TextEditingController problem = TextEditingController();
   TextEditingController description = TextEditingController();
 
+  DateTime? selectedDay, rangeStart, rangeEnd;
+
+  String _technicianId = "";
+
   RxBool isLoading = false.obs;
+
   var _techniciansList =
       List<QueryDocumentSnapshot<Map<String, dynamic>>>.empty(growable: true)
           .obs;
 
   List<dynamic> get techniciansList => _techniciansList.value;
+  String get technicianId => _technicianId;
+
+  void setTechnicianId(String id) {
+    _technicianId = id;
+  }
 
   Future<String> fetchTechnicians() async {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> technicians = await _db

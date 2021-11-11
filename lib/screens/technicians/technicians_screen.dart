@@ -14,7 +14,7 @@ class TechniciansScreen extends StatefulWidget {
 }
 
 class _TechniciansScreenState extends State<TechniciansScreen> {
-  final _requestService = Get.find<RequestController>();
+  final _requestController = Get.find<RequestController>();
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _TechniciansScreenState extends State<TechniciansScreen> {
   }
 
   Widget _Tech() {
-    var technicians = _requestService.techniciansList;
+    var technicians = _requestController.techniciansList;
     return Column(
       children: [
         ListView.builder(
@@ -33,19 +33,21 @@ class _TechniciansScreenState extends State<TechniciansScreen> {
               return _Technitian(
                   technicians[index]["fullname"],
                   technicians[index]["especialidad"],
-                  technicians[index]["puntaje"]);
+                  technicians[index]["puntaje"],
+                  technicians[index].reference.id);
             }),
       ],
     );
   }
 
-  Widget _Technitian(String nombre, String especialidad, int puntaje) {
+  Widget _Technitian(
+      String nombre, String especialidad, int puntaje, String id) {
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
-        /* Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CalendarPlanningScreen())); */
+        _requestController.setTechnicianId(id);
+        Get.offAll(() => const CalendarPlanningScreen());
       },
       child: Container(
         margin: EdgeInsets.only(top: 20),
@@ -124,12 +126,12 @@ class _TechniciansScreenState extends State<TechniciansScreen> {
             _search(),
             SizedBox(height: 10),
             FutureBuilder<String>(
-              future: _requestService
+              future: _requestController
                   .fetchTechnicians(), // function where you call your api
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 // AsyncSnapshot<Your object type>
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Text('Please wait its loading...'));
+                  return Center(child: Text('Buscando Técnicos...'));
                 } else {
                   if (snapshot.hasError)
                     return Center(child: Text('Error: ${snapshot.error}'));
