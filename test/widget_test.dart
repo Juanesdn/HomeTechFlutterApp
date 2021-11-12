@@ -10,21 +10,22 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:hometech_app/main.dart';
 
+import 'package:get/get.dart';
+import '../lib/screens/login/login_screen.dart';
+import '../lib/screens/login/widgets/body.dart';
+
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  testWidgets('login found', (WidgetTester tester) async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      GetMaterialApp(
+        home: LoginScreen(),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.byKey(Key('loginScaffold')), findsOneWidget);
   });
 }
