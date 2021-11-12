@@ -10,9 +10,8 @@ import 'theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Get.lazyPut(() => AuthController());
+  Get.lazyPut(() => AuthController());
   Get.lazyPut(() => RequestController());
-
   runApp(MyApp());
 }
 

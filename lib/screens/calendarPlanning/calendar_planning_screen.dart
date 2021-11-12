@@ -33,7 +33,6 @@ class _CalendarPlanningScreenState extends State<CalendarPlanningScreen> {
           ),
         ),
       );
-
   defaultButton(String labelText) => Container(
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
