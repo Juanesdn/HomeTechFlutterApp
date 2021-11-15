@@ -2,48 +2,140 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class CardTable extends StatelessWidget {
+class CardTable extends StatefulWidget {
+  @override
+  State<CardTable> createState() => _CardTableState();
+}
+
+class _CardTableState extends State<CardTable> {
+  List<Color> colores = [
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black
+  ];
+  String selected = "";
+
   @override
   Widget build(BuildContext context) {
     return Table(
       children: [
         TableRow(children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              setState(() {
+                _activeButton(0);
+              });
+              selected = 'Eletrodomesticos';
+            },
             child: _SigleCard(
-                color: Colors.black,
+                color: colores[0],
                 icon: Icons.router,
                 text: 'Eletrodomesticos'),
           ),
-          _SigleCard(
-              color: Colors.black,
-              icon: Icons.laptop_rounded,
-              text: 'Computadores'),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _activeButton(1);
+              });
+              selected = 'Computadores';
+            },
+            child: _SigleCard(
+                color: colores[1],
+                icon: Icons.laptop_rounded,
+                text: 'Computadores'),
+          ),
         ]),
         TableRow(children: [
-          _SigleCard(
-              color: Colors.black, icon: Icons.house_rounded, text: 'Casa'),
-          _SigleCard(
-              color: Colors.black,
-              icon: Icons.plumbing_outlined,
-              text: 'Tuberías'),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _activeButton(2);
+              });
+              selected = 'Casa';
+            },
+            child: _SigleCard(
+                color: colores[2], icon: Icons.house_rounded, text: 'Casa'),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _activeButton(3);
+              });
+              selected = 'Tuberías';
+            },
+            child: _SigleCard(
+                color: colores[3],
+                icon: Icons.plumbing_outlined,
+                text: 'Tuberías'),
+          ),
         ]),
         TableRow(children: [
-          _SigleCard(
-              color: Colors.black,
-              icon: Icons.flash_on_rounded,
-              text: 'Eléctico'),
-          _SigleCard(color: Colors.black, icon: Icons.ac_unit, text: 'A/C'),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _activeButton(4);
+              });
+              selected = 'Electrico';
+            },
+            child: _SigleCard(
+                color: colores[4],
+                icon: Icons.flash_on_rounded,
+                text: 'Eléctrico'),
+          ),
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  _activeButton(5);
+                });
+                selected = 'A/C';
+              },
+              child: _SigleCard(
+                  color: colores[5], icon: Icons.ac_unit, text: 'A/C')),
         ]),
         TableRow(children: [
-          _SigleCard(color: Colors.black, icon: Icons.tv, text: 'Televisores'),
-          _SigleCard(
-              color: Colors.black,
-              icon: Icons.window_rounded,
-              text: 'Carpintería'),
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  _activeButton(6);
+                });
+                selected = 'Televisores';
+              },
+              child: _SigleCard(
+                  color: colores[6], icon: Icons.tv, text: 'Televisores')),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _activeButton(7);
+              });
+              selected = 'Carpinteria';
+            },
+            child: _SigleCard(
+                color: colores[7],
+                icon: Icons.window_rounded,
+                text: 'Carpintería'),
+          ),
         ]),
       ],
     );
+  }
+
+  void _activeButton(int s) {
+    if (colores[s] == Colors.black) {
+      for (var i = 0; i < colores.length; i++) {
+        colores[i] = Colors.black;
+      }
+      colores[s] = Colors.orange;
+    } else {
+      for (var i = 0; i < colores.length; i++) {
+        colores[i] = Colors.black;
+      }
+    }
   }
 }
 
