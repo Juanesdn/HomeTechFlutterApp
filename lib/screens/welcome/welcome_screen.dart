@@ -11,7 +11,9 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return const Scaffold(
-      body: Body(key: Key("BodyWelcome")),
+      body: Body(
+        key: Key("BodyWelcome"),
+      ),
     );
   }
 }

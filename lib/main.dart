@@ -29,13 +29,14 @@ class MyApp extends StatelessWidget {
           return const Text("There was an error loading the app");
         } else if (snapshot.hasData) {
           return GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Hometech',
-              theme: theme(),
-              home: const WelcomeScreen(),
-              routes: routes);
+            debugShowCheckedModeBanner: false,
+            title: 'Hometech',
+            theme: theme(),
+            home: WelcomeScreen(),
+            routes: routes,
+          );
         } else {
-          return const CircularProgressIndicator();
+          return CircularProgressIndicator();
         }
       },
     );
