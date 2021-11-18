@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hometech_app/constants.dart';
-import 'package:hometech_app/screens/login/login_screen.dart';
-import 'package:hometech_app/services/authentication_service.dart';
-import 'package:provider/src/provider.dart';
+import 'package:hometech_app/controller/auth_controller.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -17,13 +16,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
-  String _fullName = "";
-  String _email = "";
-  String _password = "";
-  final fullNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -31,26 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {});
   }
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    fullNameController.dispose();
-    super.dispose();
-  }
-
-  void saveUsers() async {
-    _fullName = fullNameController.text;
-    _email = emailController.text.trim();
-    _password = passwordController.text.trim();
-
-    User user = await Provider.of<AuthenticationService>(context, listen: false)
-        .signUp(context, _email, _password);
-
-    FirebaseFirestore.instance
-        .collection("Users")
-        .doc(user.uid.toString())
-        .set({"email": _email, "fullname": _fullName, "type": "client"});
+  void createUser() async {
+    _authController.createUser();
   }
 
   /*
@@ -73,21 +48,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: TextStyle(color: Colors.white),
       ));
   */
-  registrarseButton() => Provider.of<AuthenticationService>(context).isLoading
-      ? const CircularProgressIndicator()
-      : MaterialButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          color: primaryColor,
-          onPressed: () => saveUsers(),
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(100, 20, 100, 20),
-            child: Text(
-              "Registrarse",
-              style: TextStyle(color: Colors.white, fontSize: 17),
-            ),
-          ));
+  registrarseButton() => MaterialButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      color: primaryColor,
+      onPressed: () => createUser(),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(100, 20, 100, 20),
+        child: Text(
+          "Registrarse",
+          style: TextStyle(color: Colors.white, fontSize: 17),
+        ),
+      ));
   /*
   googleLogo() => Image.asset(
         "../../../assets/images/Google_logo.png",
@@ -143,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   fullnameTextFormField() => TextFormField(
-        controller: fullNameController,
+        controller: _authController.fullName,
         maxLines: 1,
         style: TextStyle(
           foreground: null,
@@ -157,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   emailTextFormField() => TextFormField(
-        controller: emailController,
+        controller: _authController.email,
         maxLines: 1,
         style: TextStyle(
           foreground: null,
@@ -171,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   passwordTextFormField() => TextFormField(
-        controller: passwordController,
+        controller: _authController.password,
         keyboardType: TextInputType.visiblePassword,
         obscureText: !_isPasswordVisible,
         maxLines: 1,
@@ -188,8 +161,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthenticationService>(context);
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -232,16 +203,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                if (authProvider.errorMessage != "")
-                  Container(
-                      color: Colors.amberAccent,
-                      child: ListTile(
-                          title: Text(authProvider.errorMessage),
-                          leading: const Icon(Icons.error),
-                          trailing: IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () =>
-                                  authProvider.setErrorMessage("")))),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 22),
                   child: fullnameTextFormField(),

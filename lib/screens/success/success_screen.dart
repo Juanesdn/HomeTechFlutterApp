@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hometech_app/screens/homepage/homepage.dart';
+import 'package:hometech_app/screens/map/map_screen.dart';
 
 class SuccessScreen extends StatelessWidget {
   @override
@@ -46,7 +48,11 @@ class ButtonSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           CustomButton(icon: Icons.call, text: 'Chat'),
-          CustomButton(icon: Icons.map_sharp, text: 'Ruta'),
+          GestureDetector(
+              onTap: () {
+                Get.offAll(() => const MapScreen());
+              },
+              child: const CustomButton(icon: Icons.map_sharp, text: 'Ruta')),
           GestureDetector(
               onTap: () {
                 Navigator.push(context,

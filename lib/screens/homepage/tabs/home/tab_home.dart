@@ -32,7 +32,6 @@ class TabHome extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10),
         child: Column(
           children: <Widget>[
-            SizedBox(height: 30),
             _title(context),
             _search(),
             _card(),

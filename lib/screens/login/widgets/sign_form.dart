@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hometech_app/screens/admin/welcome_admin/welcome_admin_screen.dart';
-import 'package:hometech_app/screens/homepage/homepage.dart';
-import 'package:hometech_app/services/authentication_service.dart';
+import 'package:get/get.dart';
+import 'package:hometech_app/controller/auth_controller.dart';
 import 'package:hometech_app/widgets/custom_icon.dart';
 import 'package:hometech_app/widgets/default_button.dart';
 import 'package:hometech_app/widgets/form_errors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/src/provider.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -21,43 +17,20 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _password;
+
   final List<String> errors = [];
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _authController = Get.find<AuthController>();
 
-  void loginUser() async {
-    _email = emailController.text.trim();
-    _password = passwordController.text.trim();
-    await Provider.of<AuthenticationService>(context, listen: false)
-        .signIn(context, _email, _password);
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
+  void loginUser() {
+    _authController.login();
   }
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthenticationService>(context);
-
     return Form(
         key: _formKey,
         child: Column(children: [
           SizedBox(height: 20),
-          if (authProvider.errorMessage != "")
-            Container(
-                color: Colors.amberAccent,
-                child: ListTile(
-                    title: Text(authProvider.errorMessage),
-                    leading: const Icon(Icons.error),
-                    trailing: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => authProvider.setErrorMessage("")))),
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(20)),
           buildPasswordFormField(),
@@ -68,23 +41,21 @@ class _SignFormState extends State<SignForm> {
           ]),
           FormErrors(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          authProvider.isLoading
-              ? const CircularProgressIndicator()
-              : DefaultButton(
-                  text: "Iniciar Sesión",
-                  onPress: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      loginUser();
-                    }
-                  },
-                  color: Colors.white)
+          DefaultButton(
+              text: "Iniciar Sesión",
+              onPress: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  loginUser();
+                }
+              },
+              color: Colors.white)
         ]));
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-        controller: passwordController,
+        controller: _authController.password,
         obscureText: true,
         onChanged: (value) {
           if (value.isNotEmpty && errors.contains(emptyPasswordError)) {
@@ -111,7 +82,7 @@ class _SignFormState extends State<SignForm> {
           }
           return null;
         },
-        onSaved: (newValue) => _password = newValue!,
+        onSaved: (newValue) => _authController.password.text = newValue!,
         decoration: const InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: "Contraseña",
@@ -121,9 +92,9 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
-        controller: emailController,
+        controller: _authController.email,
         keyboardType: TextInputType.emailAddress,
-        onSaved: (newValue) => _email = newValue!,
+        onSaved: (newValue) => _authController.email.text = newValue!,
         onChanged: (value) {
           if (value.isNotEmpty && errors.contains(emptyEmailError)) {
             setState(() {

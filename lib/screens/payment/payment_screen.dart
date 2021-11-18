@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hometech_app/constants.dart';
+import 'package:hometech_app/controller/auth_controller.dart';
+import 'package:hometech_app/controller/request_controller.dart';
+import 'package:hometech_app/screens/calendarPlanning/calendar_planning_screen.dart';
 import 'package:hometech_app/screens/success/success_screen.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -13,13 +17,15 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   bool _isPasswordVisible = false;
 
+  final _requestController = Get.find<RequestController>();
+  final _authController = Get.find<AuthController>();
+
   @override
   void initState() {
     super.initState();
-    setState(() {});
   }
 
-  defaultButton(String labelText) => Container(
+  defaultButton(String labelText, VoidCallback onPress) => Container(
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -37,10 +43,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 : Colors.transparent,
             shadowColor: Colors.transparent,
           ),
-          onPressed: () => setState(() {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SuccessScreen()));
-          }),
+          onPressed: onPress,
           child: Text(
             labelText,
             style: labelText == "Cancelar"
@@ -68,13 +71,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 280),
-                        child: Text(
-                          "LUIS VALERIO OROZCO DE LA CRUZ",
-                          textAlign: TextAlign.left,
-                          style: cardNameTextStyle(),
-                        ),
-                      ),
+                          constraints: BoxConstraints(maxWidth: 280),
+                          child: FutureBuilder<String>(
+                              future: _authController.getUserFullname(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Text("Cargando...",
+                                      textAlign: TextAlign.left,
+                                      style: cardNameTextStyle());
+                                } else {
+                                  if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}',
+                                        textAlign: TextAlign.left,
+                                        style: cardNameTextStyle());
+                                  } else {
+                                    return Text('${snapshot.data}',
+                                        textAlign: TextAlign.left,
+                                        style: cardNameTextStyle());
+                                  }
+                                }
+                              })),
                     ),
                     SizedBox(
                       height: 10,
@@ -90,7 +108,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
                   child: mastercardLogo(),
                 ),
               ],
@@ -104,7 +122,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    "5282 3456 7890 1289",
+                    "**** **** **** 1289",
                     textAlign: TextAlign.left,
                     style: cardBottomTextStyle(),
                   ),
@@ -241,7 +259,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     style: gastoTotalTextStyle(),
                   ),
                   Text(
-                    "\$ 13.00,45",
+                    "\$ ${_requestController.technicianCostPerHour}",
                     textAlign: TextAlign.right,
                     style: gastoTotalTextStyle(),
                   ),
@@ -366,11 +384,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        defaultButton("Cancelar"),
+                        defaultButton("Cancelar", () {
+                          Get.offAll(const CalendarPlanningScreen());
+                        }),
                         SizedBox(
                           width: 15,
                         ),
-                        defaultButton("Pagar"),
+                        defaultButton("Pagar", () {
+                          _requestController.createRequest();
+                        }),
                       ],
                     ),
                   ),

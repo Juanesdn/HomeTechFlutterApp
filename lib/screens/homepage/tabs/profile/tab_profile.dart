@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hometech_app/services/authentication_service.dart';
-import 'package:provider/src/provider.dart';
+import 'package:get/get.dart';
+import 'package:hometech_app/controller/auth_controller.dart';
 
 class TabProfile extends StatelessWidget {
+  final _authController = Get.find<AuthController>();
+
   profilePicture() => Container(
         margin: EdgeInsets.all(20),
         width: 200,
@@ -230,8 +232,7 @@ class TabProfile extends StatelessWidget {
                       menuItemTextStyle(),
                       logoutIcon(),
                     ), () {
-                  Provider.of<AuthenticationService>(context, listen: false)
-                      .signOut(context);
+                  _authController.signOut();
                 }),
               ],
             ),
