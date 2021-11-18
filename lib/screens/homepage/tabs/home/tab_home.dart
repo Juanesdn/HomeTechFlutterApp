@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:hometech_app/screens/categories/categories.dart';
+import 'package:hometech_app/screens/description/description_screen.dart';
 import 'package:hometech_app/widgets/default_button.dart';
 
 class TabHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Widget> listWidget = [
+      _slideElectroD(context),
+      _slideComputers(),
+      _slideCasa(),
+      _slidePipes(),
+      _slideElectric(),
+    ];
+
+    List<Widget> listWidgetF = [
+      _slideComputers(),
+      _slideCasa(),
+      _slideElectroD(context),
+    ];
+
+    List<Widget> listWidgetO = [
+      _slidePipes(),
+      _slideElectric(),
+      _slideAC(),
+      _slideCarpenter(),
+    ];
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -14,9 +35,9 @@ class TabHome extends StatelessWidget {
             _title(context),
             _search(),
             _card(),
-            _category(context),
-            _frecuent(),
-            _others()
+            _category(context, listWidget),
+            _frecuent(listWidgetF),
+            _others(listWidgetO)
           ],
         ),
       ),
@@ -43,35 +64,52 @@ class TabHome extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              SizedBox(
-                width: 179,
-                child: Text(
-                  "¿Algo más especializado?",
-                  style: TextStyle(
-                    color: Color(0xfffef8f4),
-                    fontSize: 13,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w500,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 179,
+                    child: Text(
+                      "¿Algo más especializado?",
+                      style: TextStyle(
+                        color: Color(0xfffef8f4),
+                        fontSize: 13,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 179,
+                    child: Text(
+                      "¡Pidenos ayuda!",
+                      style: TextStyle(
+                        color: Color(0xfffbfbfb),
+                        fontSize: 17,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.all(0),
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        'https://st4.depositphotos.com/5532432/22087/v/600/depositphotos_220871294-stock-illustration-man-with-laptop-in-workplace.jpg'),
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
-              SizedBox(
-                width: 179,
-                child: Text(
-                  "¡Pidenos ayuda!",
-                  style: TextStyle(
-                    color: Color(0xfffbfbfb),
-                    fontSize: 17,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              )
             ],
           ),
         ],
@@ -80,7 +118,7 @@ class TabHome extends StatelessWidget {
   }
 }
 
-_category(BuildContext context) {
+_category(BuildContext context, List<Widget> listWidget) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -132,12 +170,12 @@ _category(BuildContext context) {
           ),
         ],
       ),
-      _sliders(),
+      _sliders(listWidget),
     ],
   );
 }
 
-_frecuent() {
+_frecuent(listWidget) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -181,12 +219,12 @@ _frecuent() {
           ),
         ],
       ),
-      _sliders(),
+      _sliders(listWidget),
     ],
   );
 }
 
-_others() {
+_others(listWidget) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -230,12 +268,12 @@ _others() {
           ),
         ],
       ),
-      _sliders(),
+      _sliders(listWidget),
     ],
   );
 }
 
-Widget _sliders() {
+Widget _sliders(List<Widget> listWidget) {
   return Container(
     width: double.infinity,
     height: 250,
@@ -245,16 +283,82 @@ Widget _sliders() {
         Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 5,
+                itemCount: listWidget.length,
                 itemBuilder: (_, int index) {
-                  return _slide();
+                  return listWidget[index];
                 }))
       ],
     ),
   );
 }
 
-Widget _slide() {
+Widget _slideElectroD(context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => DescriptionScreen()));
+    },
+    child: Container(
+      width: 200,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 179,
+            //height: 172,
+            padding: const EdgeInsets.only(
+              top: 1,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  //height: 125,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Image(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(
+                          'https://decortips.com/es/wp-content/uploads/2018/09/electrodomesticos-cocina-768x512.jpg')),
+                ),
+                SizedBox(height: 2.50),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Electrodomesticos",
+                      style: TextStyle(
+                        color: Color(0xff202020),
+                        fontSize: 17,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Container(
+                        width: 157,
+                        //height: 30,
+                        child: Text(
+                            "Neveras, licuadoras, lavadoras, entre otros")),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _slideComputers() {
   return Container(
     width: 200,
     child: Row(
@@ -282,16 +386,16 @@ Widget _slide() {
                 child: Image(
                     fit: BoxFit.fill,
                     image: NetworkImage(
-                        'https://decortips.com/es/wp-content/uploads/2018/09/electrodomesticos-cocina-768x512.jpg')),
+                        'https://i.dell.com/is/image/DellContent//content/dam/global-site-design/product_images/dell_client_products/desktops/optiplex_desktops/franchise%20composite/desktop_optiplex_franchise-page_hero_540x310.jpg?fmt=jpg&wid=547')),
               ),
-              SizedBox(height: 2.50),
+              SizedBox(height: 5.50),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Electrodomesticos",
+                    "Computadores",
                     style: TextStyle(
                       color: Color(0xff202020),
                       fontSize: 17,
@@ -302,8 +406,308 @@ Widget _slide() {
                   Container(
                       width: 157,
                       //height: 30,
-                      child:
-                          Text("Neveras, licuadoras, lavadoras, entre otros")),
+                      child: Text(
+                          "Computadores, Servidores, Pantallas, entre otros")),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _slideCasa() {
+  return Container(
+    width: 200,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 179,
+          //height: 172,
+          padding: const EdgeInsets.only(
+            top: 1,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                //height: 125,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'http://www.eltiempo.com/files/image_640_428/files/crop/uploads/2017/04/13/58f0012927bf1.r_1492229497780.0-107-3000-1607.jpeg')),
+              ),
+              SizedBox(height: 5.50),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Casa",
+                    style: TextStyle(
+                      color: Color(0xff202020),
+                      fontSize: 17,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Container(
+                      width: 157,
+                      //height: 30,
+                      child: Text(
+                          "Reparaciones, Modificaciones, Pintura, entre otros")),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _slidePipes() {
+  return Container(
+    width: 200,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 179,
+          //height: 172,
+          padding: const EdgeInsets.only(
+            top: 1,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                //height: 125,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'http://blog.dipacmanta.com/wp-content/uploads/2019/01/tuberias-de-agua.jpg')),
+              ),
+              SizedBox(height: 5.50),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tuberías",
+                    style: TextStyle(
+                      color: Color(0xff202020),
+                      fontSize: 17,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Container(
+                      width: 157,
+                      //height: 30,
+                      child: Text(
+                          "Desagües, Fugas de Agua, Reparaciones, entre otros")),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _slideElectric() {
+  return Container(
+    width: 200,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 179,
+          //height: 172,
+          padding: const EdgeInsets.only(
+            top: 1,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                //height: 125,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'http://ampliaydecoratuespacio.com/wp-content/uploads/2016/03/electricidad-2.jpg')),
+              ),
+              SizedBox(height: 5.50),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Eléctrico",
+                    style: TextStyle(
+                      color: Color(0xff202020),
+                      fontSize: 17,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Container(
+                      width: 157,
+                      //height: 30,
+                      child: Text(
+                          "Bajo Voltaje, Switches, Reparaciones, entre otros")),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _slideAC() {
+  return Container(
+    width: 200,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 179,
+          //height: 172,
+          padding: const EdgeInsets.only(
+            top: 1,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                //height: 125,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'https://media.istockphoto.com/photos/installation-service-fix-repair-maintenance-of-an-air-conditioner-picture-id1169452266')),
+              ),
+              SizedBox(height: 5.50),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "A/C",
+                    style: TextStyle(
+                      color: Color(0xff202020),
+                      fontSize: 17,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Container(
+                      width: 157,
+                      //height: 30,
+                      child: Text(
+                          "Arreglo de Aires Acondicionados, Filtros, etc")),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _slideCarpenter() {
+  return Container(
+    width: 200,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 179,
+          //height: 172,
+          padding: const EdgeInsets.only(
+            top: 1,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                //height: 125,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU2207py0whGoh7FxAxyVVkSVrQhBr9wcZI9wYA-fbeXEqwJKTgaJKm1GlLEgr8ni3sPw&usqp=CAU')),
+              ),
+              SizedBox(height: 5.50),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Carpintería",
+                    style: TextStyle(
+                      color: Color(0xff202020),
+                      fontSize: 17,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Container(
+                      width: 157,
+                      //height: 30,
+                      child: Text(
+                          "Carpintería, arreglos en madera, arreglos, etc")),
                 ],
               ),
             ],
@@ -384,8 +788,6 @@ Widget _search() {
 
 Widget _title(context) {
   return Container(
-    //width: 343,
-    //height: 77,
     margin: EdgeInsets.all(25),
     child: Row(
       mainAxisSize: MainAxisSize.min,
