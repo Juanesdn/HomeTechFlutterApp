@@ -34,19 +34,21 @@ class _TechniciansScreenState extends State<TechniciansScreen> {
                   technicians[index]["fullname"],
                   technicians[index]["especialidad"],
                   technicians[index]["puntaje"],
+                  technicians[index]["precioPorHora"],
                   technicians[index].reference.id);
             }),
       ],
     );
   }
 
-  Widget _Technitian(
-      String nombre, String especialidad, int puntaje, String id) {
+  Widget _Technitian(String nombre, String especialidad, int puntaje,
+      String precioPorHora, String id) {
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
         _requestController.setTechnicianId(id);
+        _requestController.setTechnicianCostPerHour(precioPorHora);
         Get.offAll(() => const CalendarPlanningScreen());
       },
       child: Container(

@@ -10,34 +10,25 @@ import 'theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.lazyPut(() => AuthController());
-  Get.lazyPut(() => RequestController());
-  runApp(MyApp());
+  await Firebase.initializeApp().then((value) {
+    Get.put(AuthController());
+    Get.put(RequestController());
+  });
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
-  final _firebaseInit = Firebase.initializeApp();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _firebaseInit,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Text("There was an error loading the app");
-        } else if (snapshot.hasData) {
-          return GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Hometech',
-              theme: theme(),
-              home: const WelcomeScreen(),
-              routes: routes);
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
+    return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Hometech',
+        theme: theme(),
+        home: const WelcomeScreen(),
+        routes: routes);
   }
 }

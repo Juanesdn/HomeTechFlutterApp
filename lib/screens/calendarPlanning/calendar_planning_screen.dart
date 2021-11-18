@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hometech_app/constants.dart';
 import 'package:hometech_app/controller/request_controller.dart';
 import 'package:hometech_app/screens/payment/payment_screen.dart';
+import 'package:hometech_app/screens/technicians/technicians_screen.dart';
 
 import 'range_calendar.dart';
 
@@ -52,9 +53,7 @@ class _CalendarPlanningScreenState extends State<CalendarPlanningScreen> {
                 : Colors.transparent,
             shadowColor: Colors.transparent,
           ),
-          onPressed: () {
-            print("XD");
-          },
+          onPressed: onPress,
           child: Text(
             labelText,
             style: labelText == "Cancelar"
@@ -107,13 +106,15 @@ class _CalendarPlanningScreenState extends State<CalendarPlanningScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   defaultButton("Cancelar", () {
-                    Get.back();
+                    Get.offAll(() => TechniciansScreen(
+                          category: '',
+                        ));
                   }),
                   SizedBox(
                     width: 15,
                   ),
                   defaultButton("Planea", () {
-                    print("XD");
+                    Get.offAll(() => const PaymentScreen());
                   }),
                 ],
               ),

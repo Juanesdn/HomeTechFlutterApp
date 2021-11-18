@@ -6,7 +6,9 @@ import 'package:hometech_app/helpers/showLoading.dart';
 import 'package:hometech_app/screens/admin/welcome_admin/welcome_admin_screen.dart';
 import 'package:hometech_app/screens/homepage/homepage.dart';
 import 'package:hometech_app/screens/login/login_screen.dart';
+import 'package:hometech_app/screens/map/map_screen.dart';
 import 'package:hometech_app/screens/technicians/technicians_screen.dart';
+import 'package:hometech_app/screens/welcome/welcome_screen.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -23,9 +25,7 @@ class AuthController extends GetxController {
   TextEditingController puntaje = TextEditingController();
   TextEditingController precioPorHora = TextEditingController();
 
-  Rxn<User> _user = Rxn<User>();
-
-  String _typeOfUser = "";
+  late Rx<User?> _user;
 
   User? get user => _user.value;
 
@@ -50,22 +50,21 @@ class AuthController extends GetxController {
     precioPorHora.clear();
   }
 
-  void _setInitialScreen(User? user) {
-    debugPrint("running initial screen");
+  void _setInitialScreen(User? user) async {
     if (user != null) {
-      Future<String> userType = getUserType(user);
-      userType.then((value) => _typeOfUser = value);
-      if (_typeOfUser == "client") {
+      String userType = await getUserType(user);
+      if (userType == "client") {
         Get.offAll(() => const HomePage());
-      } else if (_typeOfUser == "admin") {
+      } else if (userType == "admin") {
         Get.offAll(() => const WelcomeAdminScreen());
-      } else if (_typeOfUser == "technician") {
+      } else if (userType == "technician") {
         Get.offAll(() => TechniciansScreen(
               category: '',
             ));
       }
     } else {
-      Get.offAll(() => const LoginScreen());
+      Get.offAll(() => const WelcomeScreen());
+      /* Get.offAll(() => const MapScreen()); */
     }
   }
 
@@ -77,6 +76,16 @@ class AuthController extends GetxController {
         .then((value) => value.data());
 
     return user?["type"] ?? "";
+  }
+
+  Future<String> getUserFullname() async {
+    Map<String, dynamic>? currUser = await _db
+        .collection("Users")
+        .doc(user!.uid.toString())
+        .get()
+        .then((value) => value.data());
+
+    return currUser?["fullname"] ?? "";
   }
 
   void createUser() async {
