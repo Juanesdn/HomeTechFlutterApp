@@ -64,7 +64,6 @@ class AuthController extends GetxController {
       }
     } else {
       Get.offAll(() => const WelcomeScreen());
-      /* Get.offAll(() => const MapScreen()); */
     }
   }
 

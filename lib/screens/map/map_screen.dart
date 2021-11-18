@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hometech_app/models/directions_model.dart';
+import 'package:hometech_app/repository/directions_repository.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -13,12 +15,13 @@ class _MapScreenState extends State<MapScreen> {
   static const _initialCameraPosition =
       CameraPosition(target: LatLng(37.773972, -122.431297), zoom: 11.5);
 
-  Set<Marker> markers = Set();
+  Set<Marker> markers = {};
 
   late Position _currentPosition;
   late LatLng _pos;
 
   late GoogleMapController _googleMapController;
+  Directions? _info;
 
   @override
   void dispose() {
@@ -78,7 +81,7 @@ class _MapScreenState extends State<MapScreen> {
 
     Marker origin = Marker(
         markerId: const MarkerId("origin"),
-        infoWindow: const InfoWindow(title: 'Origin'),
+        infoWindow: const InfoWindow(title: 'Mi casa'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         position: _pos);
     markers.add(origin);
@@ -86,23 +89,79 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
-        myLocationButtonEnabled: true,
-        zoomControlsEnabled: false,
-        initialCameraPosition: _initialCameraPosition,
-        onMapCreated: (controller) => _googleMapController = controller,
-        markers: markers,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.center_focus_strong),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        onPressed: () => _googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-              CameraPosition(target: _pos, zoom: 11.5)),
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            GoogleMap(
+              myLocationButtonEnabled: true,
+              zoomControlsEnabled: false,
+              initialCameraPosition: _initialCameraPosition,
+              onMapCreated: (controller) => _googleMapController = controller,
+              markers: markers,
+              onLongPress: _addMarker,
+              polylines: {
+                if (_info != null)
+                  Polyline(
+                      polylineId: const PolylineId('overview_polyline'),
+                      color: Colors.red,
+                      width: 5,
+                      points: _info!.polylinePoints
+                          .map((e) => LatLng(e.latitude, e.longitude))
+                          .toList())
+              },
+            ),
+            if (_info != null)
+              Positioned(
+                  top: 20.0,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 6.0, horizontal: 12.0),
+                    decoration: BoxDecoration(
+                        color: Colors.yellowAccent,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 2),
+                              blurRadius: 6.0)
+                        ]),
+                    child: Text(
+                        '${_info!.totalDistance}, ${_info!.totalDuration}',
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
+                  ))
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.center_focus_strong),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          onPressed: () => _googleMapController.animateCamera(
+            CameraUpdate.newCameraPosition(
+                CameraPosition(target: _pos, zoom: 11.5)),
+          ),
         ),
       ),
     );
+  }
+
+  void _addMarker(LatLng pos) async {
+    Marker destiny = Marker(
+        markerId: const MarkerId("Tecnico"),
+        infoWindow: const InfoWindow(title: 'Técnico Asignado'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        position: pos);
+
+    setState(() {
+      markers.add(destiny);
+    });
+
+    final directions = await DirectionsRepository()
+        .getDirections(origin: _pos, destination: pos);
+    setState(() {
+      _info = directions;
+    });
   }
 }

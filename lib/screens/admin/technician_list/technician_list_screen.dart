@@ -132,7 +132,7 @@ class TechnicianListScreenState extends State<TechnicianListScreen> {
             _search(),
             Container(
                 child: DataTable(
-              columnSpacing: 20,
+              columnSpacing: 10,
               columns: myColumns,
               rows: myRows.toList(),
               sortColumnIndex: sortColumnIndex,
